@@ -19,6 +19,7 @@ GameWidget::GameWidget(QWidget *parent) : QWidget(parent)
     swordPicked = false;
     seedPicked = false;
     lobsterSaved = false;
+    lobsterFreed = false;
     wellCleared = false;
     titleStarCount = 60;
     showHintButton = false;
@@ -181,8 +182,6 @@ void GameWidget::updateGame()
         player.rect().moveBottom(620);
     }
 
-    checkCollisions();
-
     // 摄像机跟随
     camX = player.rect().x() - width() / 3;
     if (camX < 0) camX = 0;
@@ -240,25 +239,37 @@ void GameWidget::checkCollisions()
                 return;
             }
 
+            // 场景5法阵：触发最终选择
+            if (id == "magic_circle" && player.sceneId == 5 && player.hasProp("seed")) {
+                DialogData dd = dialogue.getDialog("final_choice");
+                currentDialog = dd;
+                currentDialogKey = "final_choice";
+                dialogHasChoices = !dd.choices.isEmpty();
+                state = GameState::Choice;
+                return;
+            }
+
+            // 古木门：不拾取，只作为出口提示
+            if (id == "old_door") {
+                continue;  // 跳过，让出口检测处理
+            }
+
             // 通用道具拾取
             if (!prop.label().isEmpty()) {
                 player.addProp(id);
                 prop.pick();
 
-                // 检查是否有对应对话
+                // 检查是否有对应对话（道具ID到对话key的映射）
                 QString dialogKey = id;
+                if (id == "seed") dialogKey = "pick_seed";
+                if (id == "broken_sword") dialogKey = "pick_sword";
+                
                 DialogData dd = dialogue.getDialog(dialogKey);
                 if (!dd.text.isEmpty()) {
                     currentDialog = dd;
                     currentDialogKey = dialogKey;
                     dialogHasChoices = !dd.choices.isEmpty();
                     state = dialogHasChoices ? GameState::Choice : GameState::Dialog;
-
-                    // 回溯触发
-                    if (scene.flashbackTrigger() == id && !flashbackUsed) {
-                        startFlashback(id);
-                        return;
-                    }
                     return;
                 }
             }
@@ -299,18 +310,20 @@ void GameWidget::checkCollisions()
 
             // 特殊NPC处理
             if (id == "lobster" && !lobsterSaved) {
-                lobsterSaved = true;
-                npc.setTalked(true);
-                currentDialog = dialogue.getDialog("lobster");
-                currentDialogKey = "lobster";
-                dialogHasChoices = false;
-                state = GameState::Dialog;
-
-                // 回溯触发
-                if (scene.flashbackTrigger() == id && !flashbackUsed) {
-                    startFlashback(id);
+                if (!lobsterFreed) {
+                    // 第一次互动：释放龙虾，切换图片
+                    lobsterFreed = true;
+                    return;
+                } else {
+                    // 第二次互动：触发对话
+                    lobsterSaved = true;
+                    npc.setTalked(true);
+                    currentDialog = dialogue.getDialog("lobster");
+                    currentDialogKey = "lobster";
+                    dialogHasChoices = false;
+                    state = GameState::Dialog;
+                    return;
                 }
-                return;
             }
 
             if (id == "sword_ghost" && swordPicked) {
@@ -360,6 +373,17 @@ void GameWidget::changeScene(int targetScene, int spawnX, int spawnY)
     player.setPos(spawnX, spawnY);
     scene.load(targetScene);
 
+    // 根据场景更新提示
+    switch (targetScene) {
+    case 0: hintText = "地面似乎有奇怪的图案\n古井似乎联通着哪里"; break;
+    case 1: hintText = "地下城弥漫着诡异的蓝光\n一只龙虾被困在废墟中"; break;
+    case 2: hintText = "沙漠中矗立着古老的金字塔\n石棺中似乎藏着永生的秘密"; break;
+    case 3: hintText = "火山口散发着灼热的气息\n断剑的幽魂在此守候千年"; break;
+    case 4: hintText = "图书馆秘境中藏着古老的智慧\n幻梦机器等待被启动"; break;
+    case 5: hintText = "一切回到了起点……"; break;
+    default: hintText = ""; break;
+    }
+
     // 场景进入事件
     if (targetScene == 0 && !churchStartShown) {
         churchStartShown = true;
@@ -389,11 +413,21 @@ void GameWidget::changeScene(int targetScene, int spawnX, int spawnY)
 
 void GameWidget::startFlashback(const QString &trigger)
 {
-    flashbackTimer = FLASHBACK_DURATION;
     flashbackBgColor = scene.flashbackColor();
     flashbackText = dialogue.getFlashback(trigger).text;
     showingFlashbackBg = true;  // 切换为回溯盛景背景
-    state = GameState::Flashback;
+    
+    // 直接进入对话状态
+    DialogData fb = dialogue.getFlashback(trigger);
+    if (!fb.text.isEmpty()) {
+        currentDialog = fb;
+        currentDialogKey = trigger + "_flashback";
+        // 如果有多段对话，设置nextKey
+        dialogHasChoices = !fb.choices.isEmpty();
+        state = dialogHasChoices ? GameState::Choice : GameState::Dialog;
+    } else {
+        state = GameState::Playing;
+    }
 }
 
 void GameWidget::updateFlashback()
@@ -502,6 +536,10 @@ void GameWidget::keyPressEvent(QKeyEvent *e)
             } else {
                 // 对话结束
                 state = GameState::Playing;
+                // 如果是回溯对话结束，关闭回溯背景
+                if (showingFlashbackBg) {
+                    showingFlashbackBg = false;
+                }
             }
         }
         return;
@@ -528,17 +566,13 @@ void GameWidget::keyPressEvent(QKeyEvent *e)
         checkCollisions();
     }
 
-    // F键时间回溯（场景中间区域可触发，每个场景只能用一次）
-    if (e->key() == Qt::Key_F && !flashbackUsed) {
+    // F键时间回溯（每个场景只能用一次）
+    if (e->key() == Qt::Key_F) {
         int sceneId = player.sceneId;
         // 检查该场景是否已使用过回溯
         if (!flashbackUsedScenes.contains(sceneId)) {
-            QRect pr = player.rect();
-            // 场景中间区域：x在300~980之间
-            if (pr.center().x() >= 300 && pr.center().x() <= 980) {
-                flashbackUsedScenes.insert(sceneId);  // 标记该场景已使用
-                startFlashback(scene.flashbackTrigger());
-            }
+            flashbackUsedScenes.insert(sceneId);  // 标记该场景已使用
+            startFlashback(scene.flashbackTrigger());
         }
     }
 
@@ -630,7 +664,7 @@ void GameWidget::drawTitle(QPainter &p)
     // 副标题
     p.setPen(QColor(120, 110, 90));
     p.setFont(QFont("SimHei", 16));
-    p.drawText(QRect(0, height()/2 + 30, width(), 30), Qt::AlignCenter, "文明余烬与圣女之约");
+    p.drawText(QRect(0, height()/2 + 30, width(), 30), Qt::AlignCenter, "文明灰烬");
 
     // 开始提示
     float blink = (std::sin(QDateTime::currentMSecsSinceEpoch() * 0.004) + 1) * 0.5;
@@ -647,6 +681,32 @@ void GameWidget::drawTitle(QPainter &p)
 
 void GameWidget::drawGame(QPainter &p)
 {
+    // 回溯状态：只显示回溯背景，隐藏角色、道具、地砖
+    if (showingFlashbackBg) {
+        // 回溯暖色背景
+        p.fillRect(rect(), flashbackBgColor);
+        
+        // 暖色场景元素（简化像素块）
+        p.setPen(Qt::NoPen);
+        // 彩绘玻璃窗
+        for (int i = 0; i < 5; i++) {
+            QColor glass(180 + i * 15, 100 + i * 20, 50, 150);
+            p.setBrush(glass);
+            p.drawRect(200 + i * 60, 100, 40, 80);
+        }
+        // 人群剪影
+        p.setBrush(QColor(60, 50, 40, 180));
+        for (int i = 0; i < 8; i++) {
+            p.drawRect(300 + i * 40, 400, 16, 40);
+            p.drawRect(300 + i * 40 + 2, 385, 12, 15);
+        }
+        // 圣女素白剪影（中央）
+        p.setBrush(QColor(240, 240, 250, 200));
+        p.drawRect(610, 250, 20, 50); // 身体
+        p.drawRect(614, 230, 12, 20); // 头
+        return;
+    }
+    
     // 底色填充
     p.fillRect(rect(), scene.bgColor());
 
@@ -805,11 +865,134 @@ void GameWidget::drawProps(QPainter &p)
 
 void GameWidget::drawNpcs(QPainter &p)
 {
+    // 资源目录（懒加载）
+    static QString resDir;
+    if (resDir.isEmpty()) {
+        resDir = QCoreApplication::applicationDirPath();
+        if (!QFile::exists(resDir + "/bg_church.png")) {
+            resDir = "C:/Users/29742/AppData/Roaming/TRAE SOLO CN/ModularData/ai-agent/work-mode-projects/69ff33d94039cdfcb3becb60/LateMillennium";
+        }
+        if (!QFile::exists(resDir + "/bg_church.png")) {
+            resDir = QDir::currentPath();
+        }
+    }
+
+    // 古井图片（懒加载）
+    static QPixmap wellBlockedImg;
+    static QPixmap wellOpenImg;
+    if (wellBlockedImg.isNull()) {
+        wellBlockedImg.load(resDir + "/prop_well_blocked.png");
+        wellOpenImg.load(resDir + "/prop_well_open.png");
+    }
+
+    // 龙虾图片（懒加载）
+    static QPixmap lobsterTrappedImg;
+    static QPixmap lobsterSavedImg;
+    if (lobsterTrappedImg.isNull()) {
+        lobsterTrappedImg.load(resDir + "/npc_lobster_trapped.png");
+        lobsterSavedImg.load(resDir + "/npc_lobster_saved.png");
+    }
+
     for (auto &npc : scene.npcs()) {
         QRect r = npc.rect();
         QColor c = npc.color();
+        QString id = npc.id();
 
-        // NPC本体
+        // 古井：绘制图片
+        if (id == "well") {
+            QPixmap &img = wellCleared ? wellOpenImg : wellBlockedImg;
+            if (!img.isNull()) {
+                int imgSize = 120;
+                int drawX = r.center().x() - imgSize / 2;
+                int drawY = r.center().y() - imgSize / 2 + 20;
+                p.drawPixmap(drawX, drawY, imgSize, imgSize, img);
+                QString label = wellCleared ? "疏通的古井（按E进入）" : "被堵住的古井（按E疏通）";
+                p.setPen(QColor(200, 200, 200));
+                p.setFont(QFont("SimHei", 9, QFont::Bold));
+                p.drawText(drawX, drawY - 8, imgSize, 20, Qt::AlignCenter, label);
+            } else {
+                drawPixelRect(p, r, c);
+                p.setPen(QColor(220, 220, 200));
+                p.setFont(QFont("SimHei", 9));
+                p.drawText(r.x(), r.y() - 6, npc.label());
+            }
+            // 始终显示 "!" 提示
+            float bob = std::sin(QDateTime::currentMSecsSinceEpoch() * 0.005) * 3;
+            p.setBrush(QColor(255, 220, 50));
+            p.setPen(QColor(200, 170, 0));
+            p.drawRect(r.right() - 2, r.top() - 18 + bob, 14, 14);
+            p.setPen(Qt::white);
+            p.setFont(QFont("Arial", 10, QFont::Bold));
+            p.drawText(QRect(r.right() - 2, r.top() - 18 + bob, 14, 14), Qt::AlignCenter, "!");
+            continue;
+        }
+
+        // 龙虾：绘制图片（被困/已释放两种状态）
+        if (id == "lobster") {
+            QPixmap &img = lobsterFreed ? lobsterSavedImg : lobsterTrappedImg;
+            if (!img.isNull()) {
+                int drawH = 100;
+                int drawW = int(drawH * (float)img.width() / img.height());
+                int drawX = r.center().x() - drawW / 2;
+                int drawY = r.bottom() - drawH; // 脚部对齐
+                p.drawPixmap(drawX, drawY, drawW, drawH, img);
+                QString label = lobsterFreed ? "灵智龙虾" : "被困的龙虾（按E释放）";
+                p.setPen(QColor(200, 200, 200));
+                p.setFont(QFont("SimHei", 9, QFont::Bold));
+                p.drawText(drawX, drawY - 8, drawW, 20, Qt::AlignCenter, label);
+            } else {
+                drawPixelRect(p, r, c);
+                p.setPen(QColor(220, 220, 200));
+                p.setFont(QFont("SimHei", 9));
+                p.drawText(r.x(), r.y() - 6, npc.label());
+            }
+            // 未救时显示 "!" 提示
+            if (!lobsterSaved) {
+                float bob = std::sin(QDateTime::currentMSecsSinceEpoch() * 0.005) * 3;
+                p.setBrush(QColor(255, 220, 50));
+                p.setPen(QColor(200, 170, 0));
+                p.drawRect(r.right() - 2, r.top() - 18 + bob, 14, 14);
+                p.setPen(Qt::white);
+                p.setFont(QFont("Arial", 10, QFont::Bold));
+                p.drawText(QRect(r.right() - 2, r.top() - 18 + bob, 14, 14), Qt::AlignCenter, "!");
+            }
+            continue;
+        }
+
+        // 石门：绘制图片
+        if (id == "stone_door") {
+            static QPixmap doorImg;
+            if (doorImg.isNull()) {
+                doorImg.load(resDir + "/npc_stone_door.png");
+            }
+            if (!doorImg.isNull()) {
+                // 按比例缩放：高度140，保持宽高比
+                int drawH = 140;
+                int drawW = int(drawH * (float)doorImg.width() / doorImg.height());
+                int drawX = r.center().x() - drawW / 2;
+                int drawY = r.top();
+                p.drawPixmap(drawX, drawY, drawW, drawH, doorImg);
+                p.setPen(QColor(220, 220, 200));
+                p.setFont(QFont("SimHei", 9));
+                p.drawText(drawX, drawY - 8, drawW, 20, Qt::AlignCenter, npc.label());
+            } else {
+                drawPixelRect(p, r, c);
+                p.setPen(QColor(220, 220, 200));
+                p.setFont(QFont("SimHei", 9));
+                p.drawText(r.x(), r.y() - 6, npc.label());
+            }
+            // 始终显示 "!" 提示
+            float bob = std::sin(QDateTime::currentMSecsSinceEpoch() * 0.005) * 3;
+            p.setBrush(QColor(255, 220, 50));
+            p.setPen(QColor(200, 170, 0));
+            p.drawRect(r.right() - 2, r.top() - 18 + bob, 14, 14);
+            p.setPen(Qt::white);
+            p.setFont(QFont("Arial", 10, QFont::Bold));
+            p.drawText(QRect(r.right() - 2, r.top() - 18 + bob, 14, 14), Qt::AlignCenter, "!");
+            continue;
+        }
+
+        // 普通NPC本体
         drawPixelRect(p, r, c);
 
         // 标签
@@ -1276,38 +1459,72 @@ void GameWidget::drawPixelGround(QPainter &p)
 {
     int sceneId = player.sceneId;
     
-    // 主地面（最底层平台）
-    QRect mainGround(0, 620, 1280, 100);
-    
-    // 根据场景ID绘制不同风格的地面
-    switch (sceneId) {
-        case 0: // 破败教堂
-            drawPixelPlatform(p, mainGround, 0);
-            break;
-        case 1: // 赛博朋克地下城
-            drawPixelPlatform(p, mainGround, 1);
-            break;
-        case 2: // 沙漠金字塔
-            drawPixelPlatform(p, mainGround, 2);
-            break;
-        case 3: // 末日火山
-            drawPixelPlatform(p, mainGround, 3);
-            break;
-        case 4: // 图书馆秘境
-            drawPixelPlatform(p, mainGround, 4);
-            break;
-        case 5: // 时空终局教堂
-            drawPixelPlatform(p, mainGround, 5);
-            break;
-        default:
-            drawPixelPlatform(p, mainGround, 0);
-            break;
+    // 资源目录（懒加载）
+    static QString resDir;
+    if (resDir.isEmpty()) {
+        resDir = QCoreApplication::applicationDirPath();
+        if (!QFile::exists(resDir + "/bg_church.png")) {
+            resDir = "C:/Users/29742/AppData/Roaming/TRAE SOLO CN/ModularData/ai-agent/work-mode-projects/69ff33d94039cdfcb3becb60/LateMillennium";
+        }
+        if (!QFile::exists(resDir + "/bg_church.png")) {
+            resDir = QDir::currentPath();
+        }
     }
     
-    // 绘制其他平台
-    for (auto &plat : scene.platforms()) {
-        if (plat.top() >= 620) continue; // 跳过主地面
-        drawPixelPlatform(p, plat, sceneId);
+    // 地砖图片（懒加载）
+    static QPixmap tileChurch, tileDungeon, tilePyramid, tileVolcano;
+    if (tileChurch.isNull()) {
+        tileChurch.load(resDir + "/tile_church.png");
+        tileDungeon.load(resDir + "/tile_dungeon.png");
+        tilePyramid.load(resDir + "/tile_pyramid.png");
+        tileVolcano.load(resDir + "/tile_volcano.png");
+    }
+    
+    // 根据场景ID选择地砖
+    QPixmap *tile = nullptr;
+    switch (sceneId) {
+        case 0: tile = &tileChurch; break;    // 破败教堂
+        case 1: tile = &tileDungeon; break;   // 赛博朋克地下城
+        case 2: tile = &tilePyramid; break;   // 沙漠金字塔
+        case 3: tile = &tileVolcano; break;   // 末日火山
+        case 4: tile = &tileChurch; break;    // 图书馆秘境（复用教堂地砖）
+        case 5: tile = &tileChurch; break;    // 时空终局教堂（复用教堂地砖）
+        default: tile = &tileChurch; break;
+    }
+    
+    // 主地面区域
+    QRect mainGround(0, 620, 1280, 100);
+    
+    // 用地砖平铺地面
+    if (tile && !tile->isNull()) {
+        int tileW = tile->width();
+        int tileH = tile->height();
+        
+        // 从地面顶部开始平铺
+        for (int y = mainGround.top(); y < mainGround.bottom(); y += tileH) {
+            for (int x = 0; x < mainGround.right(); x += tileW) {
+                // 计算实际绘制区域（裁剪到地面边界内）
+                int drawW = qMin(tileW, mainGround.right() - x);
+                int drawH = qMin(tileH, mainGround.bottom() - y);
+                
+                if (drawW > 0 && drawH > 0) {
+                    p.drawPixmap(x, y, drawW, drawH, *tile, 0, 0, drawW, drawH);
+                }
+            }
+        }
+    } else {
+        // 备用：绘制纯色地面
+        QColor groundColor;
+        switch (sceneId) {
+            case 0: groundColor = QColor(60, 55, 50); break;
+            case 1: groundColor = QColor(40, 42, 55); break;
+            case 2: groundColor = QColor(140, 120, 70); break;
+            case 3: groundColor = QColor(50, 35, 30); break;
+            case 4: groundColor = QColor(70, 65, 60); break;
+            case 5: groundColor = QColor(60, 55, 50); break;
+            default: groundColor = QColor(60, 55, 50); break;
+        }
+        p.fillRect(mainGround, groundColor);
     }
 }
 

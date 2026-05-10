@@ -109,7 +109,8 @@ private:
     bool loopShockShown;    // 终局震惊独白是否已显示
     bool swordPicked;       // 断剑是否已拾取
     bool seedPicked;        // 种子是否已拾取
-    bool lobsterSaved;      // 龙虾是否已救
+    bool lobsterSaved;      // 龙虾是否已救（触发对话后）
+    bool lobsterFreed;      // 龙虾是否已释放（第一次互动，切换图片）
     bool wellCleared;       // 古井是否已疏通（场景0）
 
     // === 提示按钮 ===

@@ -17,7 +17,7 @@ void Dialogue::initDialogs()
     DialogData churchStart;
     churchStart.speaker = "勇者";
     churchStart.speakerColor = "white";
-    churchStart.text = "这里就是被召唤的世界？没有生机，没有战火，只有废墟……\n召唤阵还在，可一切都太晚了。";
+    churchStart.text = "……我来了。\n\n召唤阵的光芒消散，眼前是一片死寂废墟。\n她等了一千年，可我……来晚了。";
     churchStart.nextKey = "";
     (*m_dialogs)["church_start"] = churchStart;
 
@@ -56,9 +56,9 @@ void Dialogue::initDialogs()
 
     // 石门提示
     DialogData stoneDoor;
-    stoneDoor.speaker = "系统";
-    stoneDoor.speakerColor = "yellow";
-    stoneDoor.text = "石门被强大魔法封印，无法打开。\n门身刻有暗紫色圣纹结界，似乎需要特殊信物才能解除。";
+    stoneDoor.speaker = "???";
+    stoneDoor.speakerColor = "gray";
+    stoneDoor.text = "石门紧闭，门身刻有暗紫色圣纹结界。\n\n……门无法从此侧打开。";
     stoneDoor.nextKey = "";
     (*m_dialogs)["stone_door_locked"] = stoneDoor;
 
@@ -66,7 +66,7 @@ void Dialogue::initDialogs()
     DialogData wellClear;
     wellClear.speaker = "勇者";
     wellClear.speakerColor = "white";
-    wellClear.text = "这些石块堵住了古井……让我把它们移开。\n\n（经过一番努力，古井终于疏通了）\n幽深的井底似乎通向某个地方。";
+    wellClear.text = "古井被碎石堵住了……\n\n（移开石块后，幽深的井底传来阵阵凉意）\n\n……下面似乎通向某个地方。";
     wellClear.nextKey = "";
     (*m_dialogs)["well_clear"] = wellClear;
 
@@ -76,21 +76,21 @@ void Dialogue::initDialogs()
     DialogData lobsterSave;
     lobsterSave.speaker = "勇者";
     lobsterSave.speakerColor = "white";
-    lobsterSave.text = "你能说话？这里是什么地方，这台机器又是做什么的？";
+    lobsterSave.text = "……你会说话？";
     lobsterSave.nextKey = "lobster_reply";
     (*m_dialogs)["lobster"] = lobsterSave;
 
     DialogData lobsterReply;
     lobsterReply.speaker = "灵智龙虾";
     lobsterReply.speakerColor = "yellow";
-    lobsterReply.text = "末日降临时，人类建造这座地下城，收纳文明火种以求存续。\n那位圣者暗中布下结界庇护我们，却始终不肯露面。\n\n这是「幻梦机器」，能编织没有末日、没有痛苦的完美世界，\n只是一旦进入，就再也无法醒来。";
+    lobsterReply.text = "末日降临时，人类建造这座地下城，收纳文明火种。\n那位圣者暗中布下结界庇护我们，却始终不肯露面。\n\n这是「幻梦机器」——能编织没有末日、没有痛苦的完美世界。\n一旦进入，便再也无法醒来。";
     lobsterReply.nextKey = "lobster_hint";
     (*m_dialogs)["lobster_reply"] = lobsterReply;
 
     DialogData lobsterHint;
     lobsterHint.speaker = "灵智龙虾";
     lobsterHint.speakerColor = "yellow";
-    lobsterHint.text = "对了……火山之巅，有圣者留下的信物。\n或许那就是打开那扇石门的关键。";
+    lobsterHint.text = "……火山之巅，有圣者留下的信物。\n或许那就是打开那扇石门的关键。";
     lobsterHint.nextKey = "";
     (*m_dialogs)["lobster_hint"] = lobsterHint;
 
@@ -213,14 +213,14 @@ void Dialogue::initDialogs()
     DialogData ghostTalk;
     ghostTalk.speaker = "勇者";
     ghostTalk.speakerColor = "white";
-    ghostTalk.text = "你在这里守着什么？";
+    ghostTalk.text = "……你在这里守着什么？";
     ghostTalk.nextKey = "ghost_reply";
     (*m_dialogs)["sword_ghost"] = ghostTalk;
 
     DialogData ghostReply;
     ghostReply.speaker = "守剑幽魂";
     ghostReply.speakerColor = "gray";
-    ghostReply.text = "「反抗末日。」";
+    ghostReply.text = "「……反抗末日。」\n\n（幽魂的目光落在崖边的断剑上）\n「此剑……待有缘人。」";
     ghostReply.nextKey = "";
     (*m_dialogs)["ghost_reply"] = ghostReply;
 
@@ -269,7 +269,7 @@ void Dialogue::initDialogs()
     DialogData libraryEnter;
     libraryEnter.speaker = "勇者";
     libraryEnter.speakerColor = "white";
-    libraryEnter.text = "结界解开了……门后竟然是图书馆。\n她一直在这里布局。";
+    libraryEnter.text = "结界解开了……\n\n门后竟然是图书馆。\n她……一直在这里布局。";
     libraryEnter.nextKey = "";
     (*m_dialogs)["library_enter"] = libraryEnter;
 
@@ -325,7 +325,7 @@ void Dialogue::initDialogs()
     DialogData loopShock;
     loopShock.speaker = "勇者";
     loopShock.speakerColor = "white";
-    loopShock.text = "竟然回到了最初的地方……是时空闭环。\n她瞒过了所有人，等了我一千年。";
+    loopShock.text = "……竟然回到了最初的地方。\n\n是时空闭环。\n她瞒过了所有人，等了我……一千年。";
     loopShock.nextKey = "";
     (*m_dialogs)["loop_shock"] = loopShock;
 

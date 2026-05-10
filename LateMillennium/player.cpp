@@ -14,6 +14,7 @@ void Player::update()
     if (vy > 15) vy = 15;
     m_rect.translate(vx, vy);
 
+    // 地面限制
     if (m_rect.bottom() > 620) {
         m_rect.moveBottom(620);
         vy = 0;
@@ -21,6 +22,10 @@ void Player::update()
     } else {
         onGround = false;
     }
+
+    // 画面边缘限制（1280x720）
+    if (m_rect.left() < 0) m_rect.moveLeft(0);
+    if (m_rect.right() > 1280) m_rect.moveRight(1280);
 }
 
 void Player::keyPress(QKeyEvent *e)
