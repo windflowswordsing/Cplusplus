@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>church_bg.png</file>
+        <file>pyramid_bg.png</file>
+        <file>finalchurch_bg.png</file>
+        <file>library_bg.png</file>
+        <file>volcano_bg.png</file>
+        <file>dungeon_bg.png</file>
+    </qresource>
+</RCC>
