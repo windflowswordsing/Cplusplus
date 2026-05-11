@@ -1,0 +1,366 @@
+# ============================================
+# 千年迟赴：文明灰烬 - 对话文本文件
+# ============================================
+# 格式说明：
+#   [key] = 对话ID
+#   speaker = 说话人名称
+#   color = 说话人颜色(white/gray/yellow/blue/gold/green/beige/cyan)
+#   text = 对话内容（使用\n表示换行）
+#   next = 下一段对话的key（留空表示结束）
+#   flashback = true/false（是否为回溯对话）
+#   ending = 结局类型（0=无，1=文明新生，2=归世幻梦，3=逆时赴约，4=幻梦沉沦，5=枯骨永眠）
+#   choice = 选项文字|action（每行一个选项）
+# ============================================
+
+# ===== 场景一：破败教堂 =====
+
+[church_start]
+speaker = 勇者
+color = white
+text = ......我来了。\n\n召唤阵的光芒消散，眼前是一片死寂废墟。\n可我似乎......来晚了。
+next = 
+
+[church_auto_flashback]
+speaker = ???
+color = gray
+text = 「......你来了。\n\n   去帮我看看吧，看看千年后的世界......\n  看看，还剩下什么。」
+next = 
+
+[church_flashback]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 光阴倒流，尘埃散尽，教堂重回千年前盛景......\n\n圣歌缭绕，钟声悠远，祭司、贵族、平民、法师挤满殿堂，\n人人面色惶然，却都望向祭坛方向——那道素白身影。
+next = church_flashback_2
+
+[church_flashback_2]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 民众：「听说那位画出了召唤阵，，\n  能够召唤传说中的勇者。」\n\n民众：「末日阴霾日重一日，族中长老劝她分担重任，\n  她却都婉拒了，把所有担子都揽在自己身上。」
+next = church_flashback_3
+
+[church_flashback_3]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 民众：「近来她常独自守在法阵旁，闭门不语，\n  烛火彻夜不熄，仿佛在独自斟酌什么重大抉择。」\n\n祭坛圣光缭绕，一抹素白身影静立其上，\n衣袂轻扬，被万人仰赖，却又透着难以言说的孤绝......
+next = church_flashback_4
+
+[church_flashback_4]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 身影渐渐转过身来，轮廓愈发清晰，似要露出眉眼——\n\n回溯光芒骤然崩碎，银白流光化作细碎像素......\n\n重回死寂教堂。勇者心底隐隐生出异样：\n那份沉默独处、暗自斟酌的模样，\n总透着几分不为人知的隐秘。
+next = 
+
+[stone_door_locked]
+speaker = ???
+color = gray
+text = 石门紧闭，门身刻有暗紫色圣纹结界。\n\n......门无法从此侧打开。\n\n（结界上残留着一丝熟悉的气息，\n  仿佛有人曾在此驻足良久......）
+next = 
+
+[well_clear]
+speaker = 勇者
+color = white
+text = 古井被碎石堵住了......\n\n（移开石块后，幽深的井底传来阵阵凉意）\n\n......下面似乎通向某个地方。\n\n（井壁上刻着一行小字：\n  「若此路不通，便另寻他途。」）
+next = 
+
+# ===== 场景二：地下城 =====
+
+[lobster]
+speaker = 勇者
+color = white
+text = ......你会说话？
+next = lobster_reply
+
+[lobster_reply]
+speaker = 灵智龙虾
+color = yellow
+text = 末日降临时，人类建造这座地下城，收纳文明火种。\n那位存在暗中布下结界庇护我们，却始终不肯露面。\n有人说，她不愿让任何人记住她的模样......\n\n这是「幻梦机器」——能编织没有末日、没有痛苦的完美世界。\n一旦进入，便再也无法醒来。
+next = lobster_hint
+
+[lobster_hint]
+speaker = 灵智龙虾
+color = yellow
+text = ......火山之巅，有那位存在留下的信物。\n据说那是打开结界之门的钥匙。\n\n（龙虾的眼中闪过一丝追忆）\n「千年前，她独自登上火山，再未归来......」
+next = 
+
+[dungeon_flashback]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 地下城瞬间恢复繁华，霓虹流光溢彩......\n\n孩童在巷道间奔走嬉闹，笑声清脆；\n学者们围在书架旁整理万卷藏书；\n工匠们调试机械，忙碌而有序。\n地底自成一方安稳桃源。
+next = dungeon_flashback_2
+
+[dungeon_flashback_2]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 居民：「多亏那位存在的结界庇护，我们才能躲过浩劫，\n  可我们连她的名字都不知道。」\n\n居民：「她从不现身与人相见，有人说曾在巷道尽头\n  见过她的身影，白衣胜雪，却转瞬即逝。」
+next = dungeon_flashback_3
+
+[dungeon_flashback_3]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 居民：「还有人说，这幻梦机器，\n  是她留给那些撑不住绝望的人，最后的慰藉。」\n\n巷道远处，一道浅白衣影静静伫立在霓虹光影中，\n似在凝望人间烟火，眼神温柔却又疏离......\n\n（她为何总是独自守望，却不肯走近？）
+next = dungeon_flashback_4
+
+[dungeon_flashback_4]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 勇者凝神望去，刚要辨清身形眉目——\n\n回溯戛然而止，银白流光消散，繁华褪去......\n\n眼前重回锈铁空城。勇者隐约察觉：\n那位存在始终刻意疏离、不露行踪，\n仿佛在隐藏什么，不愿被任何人知晓。\n\n（她究竟在守护什么秘密？）
+next = 
+
+[dream_machine_locked]
+speaker = ???
+color = gray
+text = 幻梦机器被某种力量封锁着......\n\n（需要先释放龙虾，才能解除封锁）\n\n（机器底座刻着一行小字：\n  「愿此梦能慰藉绝望之心。」）
+next = 
+
+[dream_machine]
+speaker = 幻梦机器
+color = blue
+ending = 4
+text = 幻梦机器发出低沉的嗡鸣......\n\n法阵中央浮现一道空间裂隙，通往未知的远方。\n另一侧似乎......是沙漠。\n\n（机器表面刻着古老的铭文：\n  「入此梦者，忘却尘世。」）
+choice = 启动幻梦机器（沉沦）|dream_enter
+choice = 穿过空间裂隙（传送）|dream_teleport
+choice = 离开|dream_leave
+next = 
+
+[dream_machine_with_seed]
+speaker = 幻梦机器
+color = blue
+text = 幻梦机器发出低沉的嗡鸣......\n\n法阵中央浮现一道空间裂隙，\n你手中的种子散发着温暖的光芒......\n\n「时空通道已开启。」\n「你可以选择......回到原来的世界。」\n\n（那是千年前的她，为你留下的最后一条路。）
+choice = 启动幻梦机器（沉沦）|dream_enter
+choice = 穿过空间裂隙（传送至金字塔）|dream_teleport
+choice = 回到原来的世界（如同大梦一场）|return_original_world
+choice = 离开|dream_leave
+next = 
+
+[holo_screen]
+speaker = 全息光屏
+color = cyan
+text = 【滋滋......沙沙......】\n\n现在是......末日纪元......1000年......\n【滋滋......】\n\n文明......已覆灭......那位存在......千年前......\n【沙沙......滋滋......】\n\n信号......中断......\n\n（最后闪过一行字：\n  「对不起，我迟到了。」）
+next = 
+
+# ===== 场景三：金字塔 =====
+
+[wall_painting]
+speaker = 勇者
+color = white
+text = 这里似乎曾经......是一座辉煌的城邦。\n\n壁画上描绘着绿洲环绕的都城，\n百姓耕种、商旅往来、孩童嬉戏于喷泉之畔......\n\n然而画面渐变——天空裂开，黄沙吞没一切，\n繁华的街巷被荒漠掩埋，\n曾经鲜活的面容，如今只剩岩壁上模糊的轮廓。\n\n千年的文明，就这样......消散在风沙里了。\n\n（壁画角落刻着一行小字：\n  「愿后来者记住我们的存在。」）
+next = 
+
+[pyramid_flashback]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 黄沙褪去，满目青绿，千里绿洲连绵不绝......\n\n城邦林立，楼宇错落，商旅络绎不绝，\n百姓安居乐业，一派盛世景象。\n可这份繁华之下，却藏着末日将至的阴影。
+next = pyramid_flashback_2
+
+[pyramid_flashback_2]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 百姓：「那位存在走遍每一片绿洲，在水源、古石上留下圣痕，\n  有人说那些圣痕能护佑我们躲过浩劫，可她从不明说。」\n\n百姓：「她从不说末日能否逆转，只是沉默走过大地，\n  四处留迹，眼神里藏着我们读不懂的沉重。」
+next = pyramid_flashback_3
+
+[pyramid_flashback_3]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 远处沙丘顶端，一道孤影迎风静立，\n白衣与风沙共舞，望着连片绿洲城邦，久久凝望......\n\n身影孤寂而坚定，似在与这片山河作别，\n又似在默默守护。勇者凝神望去——\n\n（她为何独自守望，却不肯走近人群？）
+next = pyramid_flashback_4
+
+[pyramid_flashback_4]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 面容将近显形——\n\n回溯光影骤然碎裂，银白流光消散......\n\n重回昏暗金字塔。石碑旁石壁上，\n一行浅浅刻字，无署名、无落款：\n「山河有尽，文明有痕，有缘之人，自循迹而来。」\n\n（这是......她留给我的话？）
+next = 
+
+[stone_tablet]
+speaker = 铭文
+color = gold
+text = 铭文亮起金色光芒——\n\n「圣石成棺，秘藏永生，可避灾厄。\n  王命筑之，未及启封，王已陨灭。」\n\n（石棺上的封印似乎......松动了。）\n\n（铭文边缘有一行小字：\n  「她来过这里，又悄然离去。」）
+next = 
+
+[stone_coffin]
+speaker = 国王石棺
+color = gold
+text = 石棺的封印已经解除，\n棺盖缓缓滑开，露出幽蓝色的光芒......\n\n躺入其中，据说可以获得永生，\n永远躲避末日的灾厄。\n\n但代价是——永远沉眠于此，\n再也无法见证世界的变迁。\n\n（石棺内侧刻着一行字：\n  「愿沉睡者梦见美好的过去。」）
+choice = 躺入石棺（永眠）|coffin_enter
+choice = 穿过石棺旁的暗道（传送）|coffin_teleport
+choice = 离开|leave_coffin
+next = 
+
+[stone_coffin_locked]
+speaker = 勇者
+color = white
+text = 石棺被古老的金色封印锁住了......\n\n（也许铭文石碑上记载着解开封印的方法。）\n\n（封印上残留着一丝熟悉的气息......）
+next = 
+
+# ===== 场景四：火山 =====
+
+[sword_ghost]
+speaker = 守剑幽魂
+color = gray
+text = 「......嗯......？\n\n  ......有人......来了......\n\n  ......千年了......终于......\n\n  ......守着......这把剑......\n\n  ......等一个......有缘人......\n\n  ......她说过......会有人来的......」
+next = 
+
+[sword_ghost_choice]
+speaker = 守剑幽魂
+color = gray
+text = 「......你......就是那个人吗......\n\n  ......这把断剑......是那位存在留下的......\n\n  ......能打开......那扇被封锁的门......\n\n  ......她说过......只有你能拿起它......\n\n  ......拿走吧......我......守够了......」
+choice = 取走断剑|take_sword
+choice = 离开|leave_ghost
+next = 
+
+[take_sword_dialog]
+speaker = 守剑幽魂
+color = gray
+text = 「......嗯......去吧......\n\n  ......替我......看看......门后面的世界......\n\n  ......是不是......还有希望......\n\n  ......她等了一千年......\n\n  ......别让她......再等下去了......」\n\n（幽魂的身形逐渐化为银色光点，融入断剑之中......）
+next = 
+
+[volcano_flashback]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 焦土重归万顷林海，古木参天，枝叶繁茂......\n\n山脚下村落炊烟袅袅，百姓日出而作、日落而息。\n可安宁终究只是短暂假象——\n黑雾铺天盖地从天际压落，吞噬草木，侵蚀土地。
+next = volcano_flashback_2
+
+[volcano_flashback_2]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 村里最勇敢的农夫、猎手、匠人，\n不愿坐以待毙，纷纷拿起农具、锈刃，\n结伴向火山山顶走去——\n明知以凡人之躯抗衡末日毫无胜算，却依旧义无反顾。
+next = volcano_flashback_3
+
+[volcano_flashback_3]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 老者：「昔日那位存在曾登临此山，驻足良久，\n  望着山下村落，沉默了许久，\n  随后亲手折去佩剑一半，将半截断剑留在这崖边——\n  此物待后世有缘勇者，可启尘封之境。」
+next = volcano_flashback_4
+
+[volcano_flashback_4]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 山巅崖边，那位存在孤身立在风里，白衣猎猎，\n低头凝望那柄断剑，身影孤寂淡然......\n\n回溯之力彻底耗尽，画面瞬间消散。\n勇者拔出断剑，幽魂化为银光融入剑身——\n这柄断剑，是解开结界、打开秘境之门的钥匙。\n\n（她为何折断佩剑？又为何在此等待？）
+next = 
+
+[pick_sword]
+speaker = 系统
+color = white
+text = 你拔起了断剑——\n银灰剑身锈迹斑驳，却仍能感受到圣力萦绕。\n剑身上刻着一行小字：\n「愿持此剑者，打开通往真相的门。」\n\n幽魂缓缓消散，化为点点银光......\n\n获得关键道具：【火山断剑（结界钥匙）】
+next = 
+
+# ===== 场景五：图书馆 =====
+
+[library_enter]
+speaker = 勇者
+color = white
+text = 结界解开了......\n\n门后竟然是图书馆。\n她......一直在这里布局。\n\n（空气中弥漫着陈旧的书香，\n  仿佛有人刚刚离开......）
+next = 
+
+[manuscript]
+speaker = 手稿
+color = beige
+text = 「末日不可逆，勇者不可逝，\n  以千年为约，留迹于世，待君择路。」
+next = 
+
+[manuscript_locked]
+speaker = 勇者
+color = white
+text = 这似乎是魔法书的残页......\n\n记录着时间魔法的推演......\n\n「末日不可逆，勇者不可逝，\n  以千年为约，留迹于世，待君择路。」\n\n（魔法发动还需要什么......）\n\n（书页边缘有一行小字：\n  「唯有希望之种，方能开启时空之门。」）
+next = 
+
+[bookshelf_interact]
+speaker = 勇者
+color = white
+text = 书架上堆满了古籍......\n\n在书架顶端，你发现了一本散发着微光的残缺手稿。\n\n「这是......时间魔法的推演？」\n\n（书架上的手稿似乎与这个世界的命运息息相关......）
+next = 
+
+[manuscript_choice]
+speaker = 残缺手稿
+color = beige
+text = 手稿上密密麻麻写满了时空魔法的推演......\n\n「末日不可逆，勇者不可逝，\n  以千年为约，留迹于世，待君择路。」\n\n研究这份手稿，可以逆流千年，回到过去，\n在末日降临之前，与那位存在并肩，抵抗那场浩劫。\n\n但代价是——你将永远留在那个时空，\n再也无法回到你原本的世界。\n\n（书页最后一行写着：\n  「若你选择归来，便是对她最大的辜负。」）
+choice = 研究手稿（回到过去，抵抗末日）|study_manuscript
+choice = 离开|leave_manuscript
+next = 
+
+[seed_discovered]
+speaker = 勇者
+color = white
+text = 容器中散发着柔和的光芒......\n\n是一颗种子！\n\n「文明种子——蕴含着生命与希望的种子，\n  可在废土中生根发芽，重建文明。」\n\n（这或许就是那位存在留下的希望......\n  她为何要将它藏在这里？）
+next = 
+
+[seed_choice]
+speaker = 文明种子
+color = green
+text = 种子散发着温暖的光芒......\n\n使用它，可以在废土中播种希望，\n重建文明，开启新的纪元。\n\n但代价是——你将永远留在这个世界，\n再也无法回到你原本的世界。\n\n（种子表面刻着一行小字：\n  「愿新世界不再有等待。」）
+choice = 使用种子（文明新生）|use_seed
+choice = 离开|leave_seed
+next = 
+
+[library_auto_flashback]
+speaker = ???
+color = white
+flashback = true
+text = 「......千年了。\n\n  我在时空的裂隙中等待，看着世界一点点崩塌......\n\n  末日......真的无法逆转吗？\n\n  我推演了无数种可能，\n  每一条路都通向毁灭，\n  除了......那一个选择。\n\n  可那个选择......代价太大了。\n\n  我该让那位勇者承担这份重负吗？\n  还是......让他永远沉睡在幻梦之中？\n\n  ......不，他有权利知道真相，\n  也有权利......做出自己的选择。\n\n  我在图书馆留下了种子和手稿，\n  在法阵中刻下了最后的抉择......\n\n  等待千年，只为这一刻。\n\n  ......对不起，我迟到了。」
+next = 
+
+[library_flashback]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 图书馆灯火长明，万卷书架林立......\n\n学者与法师往来论学，低声交谈，文风鼎盛。\n那位存在常独自静坐书案前，埋首古籍，\n手中执笔，在纸上推演秘术与时空法理。
+next = library_flashback_2
+
+[library_flashback_2]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 法师：「她一人背负世间救世之责，心思深沉，\n  从来都是独来独往，\n  仿佛早已习惯了独自承担一切。」\n\n法师：「她推演的时空秘术太过诡异，不似寻常救世之法，\n  仿佛早已看透前路宿命，只是不愿明说。」
+next = library_flashback_3
+
+[library_flashback_3]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 那位存在垂眸执笔，神情沉静孤寂，\n笔尖在纸上飞速游走，留下密密麻麻的推演......\n\n忽而若有所感，目光轻轻投向那扇紧闭的内门，\n眼神复杂，似有牵挂，似有决绝——\n\n（她在等待什么？又在犹豫什么？）
+next = library_flashback_4
+
+[library_flashback_4]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 容颜将要清晰显露一瞬——\n\n回溯最后一次中断，光影彻底散去，\n银白流光消失无踪，再也无法催动。\n\n满地残稿散落，纸上尽是时间魔法的推演与注释，\n却没有任何一行文字直白写下她的心思。\n一切抉择与隐忍，只待勇者自行领悟。\n\n（她为何从不留下姓名？）
+next = 
+
+[pick_seed]
+speaker = 系统
+color = green
+text = 你从石台上取下了文明种子——\n晶莹淡绿，微光闪烁，蕴含着新生的力量。\n种子底部刻着一行小字：\n「愿此世界，不再有需要等待的人。」\n\n获得关键道具：【文明种子】
+next = 
+
+# ===== 场景六：终局 =====
+
+[loop_shock]
+speaker = 勇者
+color = white
+text = ......竟然回到了最初的地方。\n\n是时空闭环。\n她瞒过了所有人，等了我......一千年。\n\n（教堂的废墟中，仿佛还能感受到她的气息......）
+next = 
+
+[final_choice]
+speaker = 系统
+color = gold
+text = 种子承载三种力量，你的选择，便是世界的终局。\n\n你站在法阵前，手中握着文明种子......\n\n（法阵边缘刻着一行字：\n  「无论你选择什么，我都不会怪你。」）
+choice = 在法阵中使用种子 -> 文明新生|ending_newborn
+choice = 使用种子的时空之力 -> 归世幻梦|ending_dream
+choice = 留在图书馆参悟手稿 -> 逆时赴约|ending_time
+next = 

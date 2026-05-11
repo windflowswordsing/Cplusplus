@@ -44,10 +44,7 @@ void Scene::load(int sceneId)
         m_platforms << QRect(0, 620, 1280, 100);
 
         // 道具（全部放在地面上）
-        m_props << Prop("dream_machine", 600, 540, 80, 80, QColor(60, 70, 90), "幻梦机器");
-        m_props << Prop("mech_debris1", 250, 590, 32, 30, QColor(100, 90, 70), "机械残骸");
-        m_props << Prop("mech_debris2", 700, 595, 48, 25, QColor(90, 85, 75), "机械残骸");
-        m_props << Prop("holo_screen", 900, 570, 64, 48, QColor(40, 60, 80), "全息光屏");
+        // 幻梦机器、全息光屏使用图片绘制，不在此处定义
 
         // NPC（放在地面上）
         m_npcs << Npc("lobster", 220, 590, 32, 30, QColor(200, 60, 40), "灵智龙虾");
@@ -69,9 +66,7 @@ void Scene::load(int sceneId)
 
         // 道具（全部放在地面上）
         m_props << Prop("pyramid", 400, 380, 200, 240, QColor(160, 140, 90), "金字塔"); // 装饰性，底部在地面
-        m_props << Prop("wall_painting", 420, 560, 80, 60, QColor(140, 120, 80), "繁华壁画");
-        m_props << Prop("stone_tablet", 620, 580, 32, 40, QColor(170, 150, 100), "铭文石碑");
-        m_props << Prop("stone_coffin", 870, 540, 64, 80, QColor(150, 140, 110), "国王石棺");
+        // 壁画、铭文、石棺使用图片绘制，不在此处定义
         m_props << Prop("sand_drift", 100, 600, 1280, 20, QColor(160, 140, 80), ""); // 沙地装饰
 
         // 出口
@@ -113,16 +108,21 @@ void Scene::load(int sceneId)
 
         m_platforms << QRect(0, 620, 1280, 100);
 
-        // 道具（全部放在地面上）
+        // 跳跃台阶（需要跳跃才能上去）
+        m_platforms << QRect(150, 540, 80, 20);   // 第一级台阶
+        m_platforms << QRect(250, 460, 80, 20);   // 第二级台阶
+        m_platforms << QRect(350, 380, 80, 20);   // 第三级台阶（最高）
+
+        // 道具
         m_props << Prop("time_corridor", 50, 300, 80, 320, QColor(180, 180, 200, 80), "时空通道");
-        m_props << Prop("manuscript", 350, 600, 16, 16, QColor(200, 190, 160), "残缺手稿");
-        m_props << Prop("seed", 580, 600, 16, 16, QColor(100, 220, 120), "文明种子");
-        m_props << Prop("old_door", 920, 480, 48, 140, QColor(120, 90, 60), "古木门");
+        m_props << Prop("manuscript", 350, 550, 100, 100, QColor(200, 190, 160), "残缺手稿");
+        m_props << Prop("seed_container", 370, 320, 50, 50, QColor(200, 180, 100), "神秘容器"); // 台阶顶端
+        m_props << Prop("portal_door", 1050, 420, 100, 200, QColor(100, 100, 150), "传送门");
         m_props << Prop("bookshelf1", 200, 480, 40, 140, QColor(80, 60, 40), "倒塌书架");
         m_props << Prop("bookshelf2", 700, 500, 35, 120, QColor(75, 55, 35), "倒塌书架");
 
-        // 出口
-        m_exits << SceneExit{QRect(920, 480, 48, 140), 5, 100, 300, ""}; // 古木门→终局
+        // 出口：传送门回到场景1
+        m_exits << SceneExit{QRect(1050, 420, 100, 200), 0, 100, 300, ""}; // 传送门→教堂
 
         m_flashbackTrigger = "library";
         m_hint = "石台上似乎有什么在发光...";

@@ -21,6 +21,14 @@ void Dialogue::initDialogs()
     churchStart.nextKey = "";
     (*m_dialogs)["church_start"] = churchStart;
 
+    // 场景0进入时自动回溯（纯净背景+暗示对话）
+    DialogData churchAutoFlashback;
+    churchAutoFlashback.speaker = "???";
+    churchAutoFlashback.speakerColor = "gray";
+    churchAutoFlashback.text = "「……你终于来了。\n\n  我等了很久……很久。\n\n  这个世界已经面目全非了，\n  但请你……不要放弃希望。\n\n  去看看吧，看看千年后的世界……\n  看看我守护的一切，还剩下什么。」";
+    churchAutoFlashback.nextKey = "";
+    (*m_dialogs)["church_auto_flashback"] = churchAutoFlashback;
+
     // 法阵回溯后的残影对话（第一章：破败教堂）
     DialogData churchFlashback;
     churchFlashback.speaker = "不知名人";
@@ -127,28 +135,67 @@ void Dialogue::initDialogs()
     dungeonFb4.nextKey = "";
     (*m_dialogs)["dungeon_flashback_4"] = dungeonFb4;
 
+    // 幻梦机器（锁定状态）
+    DialogData dreamMachineLocked;
+    dreamMachineLocked.speaker = "???";
+    dreamMachineLocked.speakerColor = "gray";
+    dreamMachineLocked.text = "幻梦机器被某种力量封锁着……\n\n（需要先释放龙虾，才能解除封锁）";
+    dreamMachineLocked.nextKey = "";
+    (*m_dialogs)["dream_machine_locked"] = dreamMachineLocked;
+
     // 幻梦机器
     DialogData dreamMachine;
-    dreamMachine.speaker = "系统";
+    dreamMachine.speaker = "幻梦机器";
     dreamMachine.speakerColor = "blue";
-    dreamMachine.text = "幻梦机器的屏幕微微亮起……\n\n启动后将进入完美幻梦，无法回头。";
+    dreamMachine.text = "幻梦机器发出低沉的嗡鸣……\n\n法阵中央浮现一道空间裂隙，通往未知的远方。\n另一侧似乎……是沙漠。";
     DialogChoice choice1;
-    choice1.text = "启动幻梦机器";
+    choice1.text = "启动幻梦机器（沉沦）";
     choice1.action = "dream_enter";
     DialogChoice choice2;
-    choice2.text = "离开";
-    choice2.action = "dream_leave";
-    dreamMachine.choices << choice1 << choice2;
+    choice2.text = "穿过空间裂隙（传送）";
+    choice2.action = "dream_teleport";
+    DialogChoice choice3;
+    choice3.text = "离开";
+    choice3.action = "dream_leave";
+    dreamMachine.choices << choice1 << choice2 << choice3;
     dreamMachine.isEnding = true;
     dreamMachine.endingType = 4;
     (*m_dialogs)["dream_machine"] = dreamMachine;
+
+    // 幻梦机器（发现种子后，可回到原来世界）
+    DialogData dreamMachineWithSeed;
+    dreamMachineWithSeed.speaker = "幻梦机器";
+    dreamMachineWithSeed.speakerColor = "blue";
+    dreamMachineWithSeed.text = "幻梦机器发出低沉的嗡鸣……\n\n法阵中央浮现一道空间裂隙，\n你手中的种子散发着温暖的光芒……\n\n「时空通道已开启。」\n「你可以选择……回到原来的世界。」";
+    DialogChoice dmChoice1;
+    dmChoice1.text = "启动幻梦机器（沉沦）";
+    dmChoice1.action = "dream_enter";
+    DialogChoice dmChoice2;
+    dmChoice2.text = "穿过空间裂隙（传送至金字塔）";
+    dmChoice2.action = "dream_teleport";
+    DialogChoice dmChoice3;
+    dmChoice3.text = "回到原来的世界（如同大梦一场）";
+    dmChoice3.action = "return_original_world";
+    DialogChoice dmChoice4;
+    dmChoice4.text = "离开";
+    dmChoice4.action = "dream_leave";
+    dreamMachineWithSeed.choices << dmChoice1 << dmChoice2 << dmChoice3 << dmChoice4;
+    (*m_dialogs)["dream_machine_with_seed"] = dreamMachineWithSeed;
+
+    // 全息光屏（场景1地下城）
+    DialogData holoScreen;
+    holoScreen.speaker = "全息光屏";
+    holoScreen.speakerColor = "cyan";
+    holoScreen.text = "【滋滋……沙沙……】\n\n现在是……末日纪元……1000年……\n【滋滋……】\n\n文明……已覆灭……圣女……千年前……\n【沙沙……滋滋……】\n\n信号……中断……";
+    holoScreen.nextKey = "";
+    (*m_dialogs)["holo_screen"] = holoScreen;
 
     // ===== 场景三：金字塔 =====
 
     DialogData pyramidPainting;
     pyramidPainting.speaker = "勇者";
     pyramidPainting.speakerColor = "white";
-    pyramidPainting.text = "曾经如此繁盛的文明，如今只剩黄沙掩埋。\n壁画上描绘着昔日的绿洲城邦、农耕与庆典盛景……";
+    pyramidPainting.text = "这里似乎曾经……是一座辉煌的城邦。\n\n壁画上描绘着绿洲环绕的都城，\n百姓耕种、商旅往来、孩童嬉戏于喷泉之畔……\n\n然而画面渐变——天空裂开，黄沙吞没一切，\n繁华的街巷被荒漠掩埋，\n曾经鲜活的面容，如今只剩岩壁上模糊的轮廓。\n\n千年的文明，就这样……消散在风沙里了。";
     pyramidPainting.nextKey = "";
     (*m_dialogs)["wall_painting"] = pyramidPainting;
 
@@ -188,41 +235,66 @@ void Dialogue::initDialogs()
     DialogData stoneTablet;
     stoneTablet.speaker = "铭文";
     stoneTablet.speakerColor = "gold";
-    stoneTablet.text = "「此棺以圣石铸就，入之可获永生，躲避末日劫难。\n  王国尚在时奉王令建造，未及启用，王已死于叛军。」";
+    stoneTablet.text = "铭文亮起金色光芒——\n\n「圣石成棺，秘藏永生，可避灾厄。\n  王命筑之，未及启封，王已陨灭。」\n\n（石棺上的封印似乎……松动了。）";
     stoneTablet.nextKey = "";
     (*m_dialogs)["stone_tablet"] = stoneTablet;
 
-    // 石棺
+    // 石棺（解锁后）
     DialogData stoneCoffin;
-    stoneCoffin.speaker = "系统";
-    stoneCoffin.speakerColor = "darkYellow";
-    stoneCoffin.text = "石棺的棺盖半掩着，内部散发着幽幽光芒……\n\n躺入石棺，寻求永生（不可逆）。";
-    DialogChoice choice3;
-    choice3.text = "躺入石棺";
-    choice3.action = "coffin_enter";
-    DialogChoice choice4;
-    choice4.text = "离开";
-    choice4.action = "coffin_leave";
-    stoneCoffin.choices << choice3 << choice4;
-    stoneCoffin.isEnding = true;
-    stoneCoffin.endingType = 5;
+    stoneCoffin.speaker = "国王石棺";
+    stoneCoffin.speakerColor = "gold";
+    stoneCoffin.text = "石棺的封印已经解除，\n棺盖缓缓滑开，露出幽蓝色的光芒……\n\n躺入其中，据说可以获得永生，\n永远躲避末日的灾厄。\n\n但代价是——永远沉眠于此。";
+    DialogChoice coffinEnter;
+    coffinEnter.text = "躺入石棺（永眠）";
+    coffinEnter.action = "coffin_enter";
+    DialogChoice coffinTeleport;
+    coffinTeleport.text = "穿过石棺旁的暗道（传送）";
+    coffinTeleport.action = "coffin_teleport";
+    DialogChoice coffinLeave;
+    coffinLeave.text = "离开";
+    coffinLeave.action = "leave_coffin";
+    stoneCoffin.choices << coffinEnter << coffinTeleport << coffinLeave;
     (*m_dialogs)["stone_coffin"] = stoneCoffin;
+
+    // 石棺未解锁提示
+    DialogData coffinLocked;
+    coffinLocked.speaker = "勇者";
+    coffinLocked.speakerColor = "white";
+    coffinLocked.text = "石棺被古老的金色封印锁住了……\n\n（也许铭文石碑上记载着解开封印的方法。）";
+    coffinLocked.nextKey = "";
+    (*m_dialogs)["stone_coffin_locked"] = coffinLocked;
 
     // ===== 场景四：火山 =====
 
+    // 守剑幽魂：第一次交互（喃喃自语）
     DialogData ghostTalk;
-    ghostTalk.speaker = "勇者";
-    ghostTalk.speakerColor = "white";
-    ghostTalk.text = "……你在这里守着什么？";
-    ghostTalk.nextKey = "ghost_reply";
+    ghostTalk.speaker = "守剑幽魂";
+    ghostTalk.speakerColor = "gray";
+    ghostTalk.text = "「……嗯……？\n\n  ……有人……来了……\n\n  ……千年了……终于……\n\n  ……守着……这把剑……\n\n  ……等一个……有缘人……」";
+    ghostTalk.nextKey = "";
     (*m_dialogs)["sword_ghost"] = ghostTalk;
 
-    DialogData ghostReply;
-    ghostReply.speaker = "守剑幽魂";
-    ghostReply.speakerColor = "gray";
-    ghostReply.text = "「……反抗末日。」\n\n（幽魂的目光落在崖边的断剑上）\n「此剑……待有缘人。」";
-    ghostReply.nextKey = "";
-    (*m_dialogs)["ghost_reply"] = ghostReply;
+    // 守剑幽魂：第二次交互（选择取走/离开）
+    DialogData ghostChoice;
+    ghostChoice.speaker = "守剑幽魂";
+    ghostChoice.speakerColor = "gray";
+    ghostChoice.text = "「……你……就是那个人吗……\n\n  ……这把断剑……是圣女留下的……\n\n  ……能打开……那扇被封锁的门……\n\n  ……拿走吧……我……守够了……」";
+    DialogChoice takeSword;
+    takeSword.text = "取走断剑";
+    takeSword.action = "take_sword";
+    DialogChoice leaveGhost;
+    leaveGhost.text = "离开";
+    leaveGhost.action = "leave_ghost";
+    ghostChoice.choices << takeSword << leaveGhost;
+    (*m_dialogs)["sword_ghost_choice"] = ghostChoice;
+
+    // 取走断剑后的对话
+    DialogData takeSwordDialog;
+    takeSwordDialog.speaker = "守剑幽魂";
+    takeSwordDialog.speakerColor = "gray";
+    takeSwordDialog.text = "「……嗯……去吧……\n\n  ……替我……看看……门后面的世界……\n\n  ……是不是……还有希望……」\n\n（幽魂的身形逐渐化为银色光点，融入断剑之中……）";
+    takeSwordDialog.nextKey = "";
+    (*m_dialogs)["take_sword_dialog"] = takeSwordDialog;
 
     // 火山回溯（第四章：末日火山）
     DialogData volcanoFlashback;
@@ -279,6 +351,59 @@ void Dialogue::initDialogs()
     manuscript.text = "「末日不可逆，勇者不可逝，\n  以千年为约，留迹于世，待君择路。」";
     manuscript.nextKey = "";
     (*m_dialogs)["manuscript"] = manuscript;
+
+    // 手稿（未发现种子时）
+    DialogData manuscriptLocked;
+    manuscriptLocked.speaker = "勇者";
+    manuscriptLocked.speakerColor = "white";
+    manuscriptLocked.text = "这似乎是魔法书的残页……\n\n记录着时间魔法的推演……\n\n「末日不可逆，勇者不可逝，\n  以千年为约，留迹于世，待君择路。」\n\n（魔法发动还需要什么……）";
+    manuscriptLocked.nextKey = "";
+    (*m_dialogs)["manuscript_locked"] = manuscriptLocked;
+
+    // 手稿选择（研究触发结局）
+    DialogData manuscriptChoice;
+    manuscriptChoice.speaker = "残缺手稿";
+    manuscriptChoice.speakerColor = "beige";
+    manuscriptChoice.text = "手稿上密密麻麻写满了时空魔法的推演……\n\n「末日不可逆，勇者不可逝，\n  以千年为约，留迹于世，待君择路。」\n\n研究这份手稿，可以逆流千年，回到过去，\n在末日降临之前，与圣女并肩，抵抗那场浩劫。\n\n但代价是——你将永远留在那个时空，\n再也无法回到你原本的世界。";
+    DialogChoice studyManuscript;
+    studyManuscript.text = "研究手稿（回到过去，抵抗末日）";
+    studyManuscript.action = "study_manuscript";
+    DialogChoice leaveManuscript;
+    leaveManuscript.text = "离开";
+    leaveManuscript.action = "leave_manuscript";
+    manuscriptChoice.choices << studyManuscript << leaveManuscript;
+    (*m_dialogs)["manuscript_choice"] = manuscriptChoice;
+
+    // 发现种子
+    DialogData seedDiscovered;
+    seedDiscovered.speaker = "勇者";
+    seedDiscovered.speakerColor = "white";
+    seedDiscovered.text = "容器中散发着柔和的光芒……\n\n是一颗种子！\n\n「文明种子——蕴含着生命与希望的种子，\n  可在废土中生根发芽，重建文明。」\n\n（这或许就是圣女留下的希望……）";
+    seedDiscovered.nextKey = "";
+    (*m_dialogs)["seed_discovered"] = seedDiscovered;
+
+    // 种子选择
+    DialogData seedChoice;
+    seedChoice.speaker = "文明种子";
+    seedChoice.speakerColor = "green";
+    seedChoice.text = "种子散发着温暖的光芒……\n\n使用它，可以在废土中播种希望，\n重建文明，开启新的纪元。\n\n但代价是——你将永远留在这个世界。";
+    DialogChoice useSeed;
+    useSeed.text = "使用种子（文明新生）";
+    useSeed.action = "use_seed";
+    DialogChoice leaveSeed;
+    leaveSeed.text = "离开";
+    leaveSeed.action = "leave_seed";
+    seedChoice.choices << useSeed << leaveSeed;
+    (*m_dialogs)["seed_choice"] = seedChoice;
+
+    // 场景4自动回溯：圣女内心矛盾独白
+    DialogData libraryAutoFlashback;
+    libraryAutoFlashback.speaker = "圣女";
+    libraryAutoFlashback.speakerColor = "white";
+    libraryAutoFlashback.text = "「……千年了。\n\n  我在时空的裂隙中等待，看着世界一点点崩塌……\n\n  末日……真的无法逆转吗？\n\n  我推演了无数种可能，\n  每一条路都通向毁灭，\n  除了……那一个选择。\n\n  可那个选择……代价太大了。\n\n  我该让勇者承担这份重负吗？\n  还是……让他永远沉睡在幻梦之中？\n\n  ……不，他有权利知道真相，\n  也有权利……做出自己的选择。\n\n  我在图书馆留下了种子和手稿，\n  在法阵中刻下了最后的抉择……\n\n  等待千年，只为这一刻。」";
+    libraryAutoFlashback.isFlashback = true;
+    libraryAutoFlashback.nextKey = "";
+    (*m_dialogs)["library_auto_flashback"] = libraryAutoFlashback;
 
     // 图书馆回溯（第五章：图书馆秘境）
     DialogData libraryFlashback;

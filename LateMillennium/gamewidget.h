@@ -15,6 +15,7 @@
 
 // 游戏状态
 enum class GameState {
+    Intro,       // 开场画面（诗句）
     Title,       // 标题画面
     Playing,     // 正常游戏
     Dialog,      // 对话中
@@ -47,12 +48,14 @@ private:
 
     // === 回溯系统 ===
     void startFlashback(const QString &trigger);
+    void startLibraryFlashback();  // 场景4自动回溯
     void updateFlashback();
 
     // === 结局 ===
     void triggerEnding(int type);
 
     // === 渲染 ===
+    void drawIntro(QPainter &p);
     void drawTitle(QPainter &p);
     void drawGame(QPainter &p);
     void drawPlayer(QPainter &p);
@@ -112,6 +115,12 @@ private:
     bool lobsterSaved;      // 龙虾是否已救（触发对话后）
     bool lobsterFreed;      // 龙虾是否已释放（第一次互动，切换图片）
     bool wellCleared;       // 古井是否已疏通（场景0）
+    bool dreamMachineInteracted; // 幻梦机器是否已交互（场景1）
+    bool coffinUnlocked;         // 石棺是否已解锁（场景2铭文触发）
+    bool pendingTeleport;         // 对话结束后是否传送
+    int pendingTeleportScene;     // 传送目标场景
+    bool libraryFlashbackShown;   // 场景4回溯是否已触发
+    bool seedDiscovered;          // 种子是否已发现（场景5容器互动后）
 
     // === 提示按钮 ===
     bool showHintButton;    // 是否显示提示按钮
