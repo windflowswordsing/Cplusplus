@@ -40,6 +40,7 @@ public:
 
 private:
     void initDialogs();
+    void loadDefaultDialogs();
     QMap<QString, DialogData> *m_dialogs;
 };
 

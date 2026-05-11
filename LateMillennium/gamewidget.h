@@ -46,6 +46,9 @@ private:
     // === 场景切换 ===
     void changeScene(int targetScene, int spawnX, int spawnY);
 
+    // === 重置游戏 ===
+    void resetGame();
+
     // === 回溯系统 ===
     void startFlashback(const QString &trigger);
     void startLibraryFlashback();  // 场景4自动回溯
@@ -65,7 +68,7 @@ private:
     void drawFlashback(QPainter &p);
     void drawEnding(QPainter &p);
     void drawHUD(QPainter &p);
-    void drawHintButton(QPainter &p);
+    // void drawHintButton(QPainter &p);  // 已删除，提示改为左上角直接显示
     void drawPixelRect(QPainter &p, QRect r, QColor c);
     void drawPixelGround(QPainter &p);
     void drawPixelPlatform(QPainter &p, QRect plat, int sceneId);
@@ -121,6 +124,9 @@ private:
     int pendingTeleportScene;     // 传送目标场景
     bool libraryFlashbackShown;   // 场景4回溯是否已触发
     bool seedDiscovered;          // 种子是否已发现（场景5容器互动后）
+    bool manuscriptRevealed;      // 魔法书是否已显现（书架互动后）
+    bool returnedFromScene6;      // 是否从场景六回到场景一
+    bool swordDropped;            // 断剑是否已掉落（幽魂互动后）
 
     // === 提示按钮 ===
     bool showHintButton;    // 是否显示提示按钮
