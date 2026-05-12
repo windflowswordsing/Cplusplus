@@ -1,0 +1,511 @@
+场景一
+和女神像互动先触发独白：[church_statue] 
+ speaker = 勇者 
+ color = white 
+ text = 这尊女神像……被砸毁了。\n\n裂痕不像风化。\n\n更像是……人为破坏。\n\n（伸手触碰石像）\n\n……冰冷得像尸体一样。 
+ next = church_statue_flash 
+ 再互动则触发回溯，回溯对话：[church_statue_flash] 
+ speaker = 教徒 
+ color = gray 
+ flashback = true 
+ text = 「神为什么不回应我们？！」\n\n「村庄已经没了！」\n\n「黑雾已经逼近这里了！」\n\n教堂里一片混乱。\n\n有人跪地哭喊。\n\n有人不断祈祷。\n\n还有人开始砸毁神像。\n\n圣光摇晃。\n\n空气里满是绝望。 
+ next = church_statue_flash_2 
+ 
+ [church_statue_flash_2] 
+ speaker = 不知名人 
+ color = gray 
+ flashback = true 
+ text = 「不是神抛弃了他们。」\n\n「是他们……已经撑不住了。」
+
+和法阵互动触发独白：[church_circle] 
+ speaker = 勇者 
+ color = white 
+ text = ……似乎就是这个把我召唤过来。\n\n（指尖沿着纹路缓缓滑动）\n\n这些痕迹，被修改过很多次。\n\n不像绘制。\n\n更像是在……修正某种错误。\n\n（她到底改了什么？）\n\n想要启动似乎缺少了什么部分…… 
+ 再次互动触发回溯[church_circle_flash] 
+ speaker = 祭司 
+ color = gray 
+ flashback = true 
+ text = 「圣女大人！」\n\n「勇者还是没有召唤来吗？！」\n\n「结界撑不了多久！」\n\n祭司声音发颤。 
+ 
+              
+
+
+
+
+
+
+
+和烛台互动触发独白speaker = 勇者 
+ color = white 
+ text = 蜡油已经凝固了。\n\n可这些烛火熄灭前。\n\n似乎燃烧了很久。\n\n（她是不是……一直守在这里？） 
+ 再次互动触发回溯[church_candle_flash] 
+ speaker = 侍女 
+ color = gray 
+ flashback = true 
+ text = 「圣女大人……您已经三天没有休息了。」\n\n白衣身影没有回答。\n\n只是继续推演法阵。\n\n侍女轻轻放下食物。\n\n却发现那些饭菜从来没有动过。 
+ next = church_candle_flash_2 
+ 
+ [church_candle_flash_2] 
+ speaker = 侍女 
+ color = gray 
+ flashback = true 
+ text = 「法阵召唤的勇者真的能结束末日吗？」
+
+ 场景二
+和龙虾交互增加对话
+[lobster_question]
+speaker = 勇者
+color = white
+text = 那你觉得——\n\n他们，是被末日杀死的？\n\n还是，被自己毁掉的？
+tip = 龙虾的触须微微颤动，似乎在思考
+next = lobster_answer
+
+[lobster_answer]
+speaker = 灵智龙虾
+color = yellow
+text = ……末日，只是开始。\n\n真正结束他们的——是选择。\n\n（声音低沉）\n\n有人选择对抗，有人选择逃避。\n\n有人选择守住希望……\n\n有人，选择把希望亲手扔掉。\n\n\n……你呢？\n\n你会选哪一种？
+tip = 幻梦机器的光微微亮了一瞬
+choice = 我不会逃|lobster_resolve
+choice = ……我不知道|lobster_doubt
+next =
+和显示屏交互增加对话
+[dungeon_core]
+type = reality
+speaker = 勇者
+color = white
+text = ……能源还很充足。\n\n地下城并不是因为资源耗尽毁灭的。\n\n\n那为什么……\n\n这里还是死了？
+tip = 能源核心仍稳定运行
+next = dungeon_core_flash
+
+进入回溯画面
+[dungeon_core_flash]
+type = flashback
+speaker = 学者
+color = gray
+flashback = true
+text = 「教育系统关闭。」\n\n「机械维护率下降。」\n\n「出生率持续减少。」\n\n学者看着数据。\n\n声音越来越低。\n\n\n「地下城还活着。」\n\n「可文明……正在死去。」
+tip = 数据终端不断报警
+next = dungeon_core_flash_2
+和幻梦机器交互触发选项，离开、前往地面沙漠、触发结局
+场景三
+
+和壁画交互增加对话
+speaker = 勇者
+color = white
+pyramid_wall]
+type = reality
+speaker = 勇者
+color = white
+text = 这些壁画……还没有完全磨灭。\n\n（伸手扫开黄沙）\n\n河流。\n\n集市。\n\n孩童。\n\n庆典。\n\n\n他们把“活着”的模样刻在了石头上。\n\n像是在害怕——\n\n有一天。\n\n没人再记得他们。
+
+text = ……他们拼命把一切刻下来。\n\n可如果没有人记得……\n\n这些，还有意义吗？
+tip = 墙壁刻痕密集到几乎重叠
+next = pyramid_answer
+
+[pyramid_answer]
+speaker = 不知名人
+color = gray
+text = 「意义，从来不在“被记住”。」\n\n「而在——有人曾努力留下痕迹。」\n\n「哪怕最后，什么都没留下。」
+next =
+
+
+和石棺交互触发回溯
+
+
+[pyramid_king_flash]
+type = flashback
+speaker = 国王
+color = gold
+flashback = true
+text = 「只要朕还活着。」\n\n「王国就不会灭亡。」\n\n大殿里安静无比。\n\n没人敢反驳。\n\n\n而王座之下。next = pyramid_king_flash_2
+回溯结束触发对话
+[pyramid_king]
+type = reality
+speaker = 勇者
+color = white
+text =即使到最后。\n\n他们依然相信“统治”能延续文明。\n\n\n可人民的手掌长满了水泡，王国并却没有永垂不朽。
+
+对话结束，触发选项，选择躺入石棺、前往火山。
+
+
+
+
+
+
+
+场景四
+和幽灵增加对话
+
+[volcano_ghost_2]
+type = reality
+speaker = 勇者
+color = white
+text = ……你是谁？
+tip = 幽魂缓缓低头
+next = volcano_ghost_3
+
+
+[volcano_ghost_3]
+type = reality
+speaker = 守剑幽魂
+color = gray
+text = ……忘了。\n\n名字这种东西。\n\n死得太久。\n\n就留不住了。
+tip = 幽魂声音低哑飘忽
+next = volcano_ghost_4
+
+
+[volcano_ghost_4]
+type = reality
+speaker = 勇者
+color = white
+text = ……为什么留在这里？
+tip = 火山深处传来低沉轰鸣
+next = volcano_ghost_5
+
+
+[volcano_ghost_5]
+type = reality
+speaker = 守剑幽魂
+color = gray
+text = ……也忘了。\n\n\n只记得。\n\n有人让我等。\n\n于是我就一直等到了现在。
+tip = 幽魂缓缓望向断剑
+next = volcano_ghost_6
+
+
+[volcano_ghost_6]
+type = reality
+speaker = 勇者
+color = white
+text = ……是谁？
+tip = 风忽然变大
+next = volcano_ghost_7
+
+
+[volcano_ghost_7]
+type = reality
+speaker = 守剑幽魂
+color = gray
+text = ……忘了。\n\n\n只记得。\n\n她总穿着白衣。\n\n看人的时候。\n\n很安静。
+tip = 幽魂轮廓轻微摇晃
+next = volcano_ghost_8
+
+
+[volcano_ghost_8]
+type = reality
+speaker = 勇者
+color = white
+text = ……那你还记得什么？
+tip = 幽魂沉默很久
+next = volcano_ghost_9
+
+
+[volcano_ghost_9]
+type = reality
+speaker = 守剑幽魂
+color = gray
+text = ……记得很多人死了。\n\n\n也记得。\n\n他们明明知道会输。\n\n还是上山了。
+tip = 风里隐约传来遥远呐喊
+next = volcano_ghost_10
+
+
+[volcano_ghost_10]
+type = reality
+speaker = 勇者
+color = white
+text = ……为什么？\n\n明知道不会赢。
+tip = 幽魂久久没有回答
+next = volcano_ghost_11
+
+
+[volcano_ghost_11]
+type = reality
+speaker = 守剑幽魂
+color = gray
+text = ……因为人活着。\n\n有时候。\n\n不是为了赢。\n\n\n只是为了。\n\n别那么早低头。
+tip = 幽魂身影开始逐渐消散
+next = volcano_ghost_12
+
+
+[volcano_ghost_12]
+type = reality
+speaker = 守剑幽魂
+color = gray
+text = 后来我才明白。\n\n\n真正先死掉的。\n\n从来不是人。\n\n而是那些——\n\n觉得“反正没意义”的心。
+tip = 断剑与火山灰同时亮起微光
+next =
+
+对话结束后幽灵消失，断剑出现。
+和断剑交互，触发回溯
+
+
+# =========================
+# 断剑调查
+# =========================
+
+[volcano_weapon]
+type = reality
+speaker = 勇者
+color = white
+text = ……这些不是正规武器。\n\n（拾起烧焦铁锹）\n\n锄头。\n\n镰刀。\n\n猎刀。\n\n\n他们甚至连像样的兵器都没有。\n\n\n可还是上山了。
+tip = 武器残骸大多是农具
+next = volcano_weapon_flash
+
+
+[volcano_weapon_flash]
+type = flashback
+speaker = narration
+color = gray
+flashback = true
+text = 火光在山路间摇晃。\n\n男人们沉默地向山上走去。\n\n有人扛着锄头。\n\n有人背着猎弓。\n\n还有人只是攥着一根削尖的木棍。\n\n\n没人觉得自己能活下来。\n\n可也没人停下。\n\n\n远处的黑雾正一点点吞没天空。\n\n而火山脚下的村庄。\n\n就在他们身后。
+tip = 回溯中的火山仍未喷发
+next = volcano_weapon_flash_2
+
+
+[volcano_weapon_flash_2]
+type = flashback
+speaker = narration
+color = gray
+flashback = true
+text = 有年轻人忍不住回头。\n\n看向那些哭喊的人。\n\n看向正在燃烧的房屋。\n\n\n他其实明白。\n\n继续往前。\n\n大概只会死得更快。\n\n\n可前面的人还是在走。\n\n于是后面的人。\n\n也只能继续跟上。\n\n\n因为有时候。\n\n人不是看见希望才站出来。\n\n而是不想在灾难面前。\n\n连最后一点像人的东西。\n\n也一起丢掉。
+tip = 村民们正在向山顶集结
+next =
+
+
+回溯结束
+出现选项，继续向前进入下一个场景
+
+
+
+
+场景五
+[library_enter]
+type = reality
+speaker = 勇者
+color = white
+text = ……这里就是石门后面。\n\n（缓缓走入废墟）\n\n和外面不一样。\n\n这里没有黄沙。\n\n没有熔岩。\n\n没有霓虹。\n\n\n只有书。\n\n\n或者说。\n\n曾经是书。
+tip = 空气中漂浮大量纸灰
+next = library_enter_2
+# 倒塌书架调查
+# =========================
+
+[library_bookshelf]
+type = reality
+speaker = 勇者
+color = white
+text = ……这些书架原本一定很高。\n\n（抬头望向断裂木梁）\n\n历史。\n\n魔法。\n\n天文。\n\n地理。\n\n\n他们把整个文明都搬进来了。\n\n\n像是在害怕。\n\n有一天世界会突然消失。
+tip = 书架内部仍残留大量魔法符文
+next = library_bookshelf_flash
+
+
+[library_bookshelf_flash]
+type = flashback
+speaker = 学者
+color = gray
+flashback = true
+text = 「把北方典籍也搬进来！」\n\n「还有历代星图！」\n\n学者们来回奔走。\n\n整个图书馆灯火通明。\n\n\n他们已经知道。\n\n外面的世界撑不了多久了。
+tip = 回溯中的图书馆仍完整辉煌
+next = library_bookshelf_flash_2
+
+
+[library_bookshelf_flash_2]
+type = flashback
+speaker = 年轻学者
+color = gray
+flashback = true
+text = 「真的有必要吗？」\n\n「如果所有人都会死……」\n\n老人缓缓整理书页。\n\n很久之后。\n\n才低声回答。\n\n「文明不是为了“现在的人”留下的。」\n\n「而是为了——」\n\n「未来还有人类的时候。」
+tip = 学者们正在整理大量古籍
+next =
+
+# =========================
+# 时间手稿调查
+# =========================
+
+[library_manuscript]
+type = reality
+speaker = 勇者
+color = white
+text = ……这些全是时间魔法。\n\n（缓缓翻开残页）\n\n推演。\n\n修改。\n\n否定。\n\n重构。\n\n\n每一页都写满了失败。\n\n\n（她到底算了多少次？）
+tip = 手稿边缘存在大量涂改痕迹
+next = library_manuscript_flash
+
+
+[library_manuscript_flash]
+type = flashback
+speaker = 不知名人
+color = gray
+flashback = true
+text = 深夜。\n\n整个图书馆只剩烛火。\n\n白衣身影独自坐在书桌前。\n\n桌上堆满推演稿。\n\n\n她不断修改法阵。\n\n不断重写时间节点。\n\n\n可每一次结果——\n\n都是毁灭。
+tip = 回溯中的烛火正在轻轻摇晃
+next = library_manuscript_flash_2
+
+
+[library_manuscript_flash_2]
+type = flashback
+speaker = 不知名人
+color = gray
+flashback = true
+text = 「召唤提前三个月。」\n\n【失败】\n\n「召唤提前一年。」\n\n【失败】\n\n「召唤正常进行。」\n\n【失败】\n\n\n无论怎么推演。\n\n结果都没有改变。\n\n\n世界一定会毁灭。\n\n勇者一定会死。
+tip = 手稿上的失败标记越来越密集
+next = library_manuscript_flash_3
+
+
+[library_manuscript_flash_3]
+type = flashback
+speaker = 不知名人
+color = gray
+flashback = true
+text = 她终于停下笔。\n\n沉默了很久。\n\n随后轻声开口。\n\n「……原来如此。」\n\n「不是召唤失败。」\n\n「而是这个世界……已经没有未来了。」\n\n\n烛火轻轻摇晃。\n\n而她第一次。\n\n露出了真正疲惫的神情。
+tip = 时间法阵开始逐渐熄灭
+next =
+
+
+[library_core]
+speaker = 勇者
+color = white
+text = ……明明早就知道。\n\n末日无法阻止。\n\n地下城会毁灭。\n\n王国会覆灭。\n\n……所有人都会失败。\n\n\n那为什么……还要做这些？
+ 文明种子调查
+# =========================
+
+[library_seed]
+type = reality
+speaker = 勇者
+color = white
+text = ……这是。\n\n（缓缓蹲下）\n\n一枚种子？\n\n\n不。\n\n更像是某种……被保存下来的生命。\n\n\n它还活着。
+tip = 种子正散发柔和绿光
+next = library_seed_flash
+
+
+[library_seed_flash]
+type = flashback
+speaker = 不知名人
+color = gray
+flashback = true
+text = 白衣身影坐在书桌前。\n\n掌心静静托着那枚种子。\n\n\n她看了很久。\n\n像在看某种比世界更重要的东西。
+tip = 回溯中的种子仍未发光
+next = library_seed_flash_2
+
+
+[library_seed_flash_2]
+type = flashback
+speaker = 不知名人
+color = gray
+flashback = true
+text = 「如果文明无法延续。」\n\n「那至少。」\n\n「该留下些什么。」\n\n她轻轻闭上眼。\n\n圣力缓缓注入种子。\n\n\n那不是普通植物。\n\n而是——\n\n被压缩保存的文明记录。
+tip = 种子开始出现微弱绿光
+next = library_seed_flash_3
+
+
+[library_seed_flash_3]
+type = flashback
+speaker = 不知名人
+color = gray
+flashback = true
+text = 她将知识。\n\n历史。\n\n语言。\n\n文明。\n\n甚至人类曾经存在过的证明。\n\n全部封进了种子里。\n\n\n因为她已经知道。\n\n总有一天。\n\n世界会只剩下一个人。\n\n\n而那个人。\n\n不能什么都不知道。
+tip = 种子与周围圣力产生共鸣
+next =
+
+
+Ending 1：文明新生（真正继承她的人）
+[ending_1_core]
+speaker = 勇者
+color = white
+ending = 1
+text = ……我终于明白了。\n\n你不是在等我来拯救世界。\n\n你是在……拼命让我活下来。\n\n（低头看着掌心的种子，声音很轻）\n\n你早就知道，末日无法阻止。\n\n所以你做的一切，不是为了赢。\n\n是为了……不再失去。\n\n\n（缓缓跪下，将种子埋入土中）\n\n……那就由我来继续吧。\n\n不是为了逆转什么。\n\n只是……让这一切，不白费。
+
+tip = 种子落地的瞬间，绿光缓缓扩散，像呼吸一样微弱却坚定
+next = ending_1_voice
+
+[ending_1_voice]
+speaker = 不知名人
+color = gray
+text = 「……你终于，没有走向他们那条路。」\n\n「谢谢你。」\n\n「这一次……不需要勇者去死了。」
+tip = 风中传来极轻的一声叹息，像有人终于放下了什么
+next =
+ Ending 2：归世幻梦（她给你的退路）
+[ending_2_core]
+speaker = 勇者
+color = white
+ending = 2
+text = ……原来，这就是你留给我的选择。\n\n回去。\n\n忘记这一切。\n\n像什么都没发生过。\n\n\n（看着手中的光，沉默很久）\n\n你连逃跑的路……都帮我准备好了。\n\n\n……你到底，有多不希望我死在这里？
+tip = 时空裂隙稳定存在，没有任何强迫感
+next = ending_2_voice
+
+[ending_2_voice]
+speaker = 不知名人
+color = gray
+text = 「我不需要你拯救这个世界。」\n\n「我只希望……你能活着。」\n\n「哪怕，忘了我。」\n\n\n「……那也没关系。」
+tip = 声音极轻，像刻意不想被听见
+next =
+
+这个结局的本质是：
+你接受了她的“自私的善意”
+
+ Ending 3：逆时赴约（最刀的结局）
+[ending_3_core]
+speaker = 勇者
+color = white
+ending = 3
+text = ……不对。\n\n你不是想让我活下来。\n\n你只是……不想让我陪你死。\n\n\n（握紧断剑）\n\n你一个人，扛了这一切。\n\n看着世界毁灭。\n\n看着人类沉沦。\n\n看着希望一点点消失。\n\n\n……却连“求救”都没有说过一次。\n\n\n（声音低下来）\n\n那这次——\n\n我去找你。
+tip = 时间法阵开始不稳定震动
+next = ending_3_voice
+
+[ending_3_voice]
+speaker = 不知名人
+color = gray
+text = 「……不要来。」\n\n「那里，没有希望。」\n\n「也不需要……再多一个人陪我承受。」\n\n\n（停顿）\n\n「……求你。」
+tip = 声音第一次出现动摇
+next = ending_3_end
+
+[ending_3_end]
+speaker = 勇者
+color = white
+text = ……太晚了。\n\n你已经等了一千年。\n\n\n这一次——\n\n换我来。
+tip = 光芒爆发，时空撕裂
+next =
+
+ 
+ Ending 4：幻梦沉沦（最讽刺结局）
+[ending_4_core]
+speaker = 勇者
+color = white
+ending = 4
+text = ……原来如此。\n\n他们当初，也是这么想的吧。\n\n\n“反正已经无法改变。”\n\n“那就……别再痛苦了。”\n\n\n（走向机器）\n\n你明明知道这东西会毁掉人。\n\n却还是留下了。\n\n\n……你当时，是不是也犹豫过？
+tip = 幻梦机器光芒逐渐温暖
+next = ending_4_voice
+
+[ending_4_voice]
+speaker = 不知名人
+color = gray
+text = 「……我只是希望。」\n\n「如果真的有人撑不住。」\n\n「至少，可以不用那么痛苦。」\n\n\n「我从没想过……他们会选择沉沦。」
+tip = 声音带着极轻的自责
+next = ending_4_end
+
+[ending_4_end]
+speaker = 勇者
+color = white
+text = ……那我，也试一次吧。\n\n\n（闭上眼）\n\n……反正，没有人会记得。
+tip = 光芒彻底吞没视野
+next =
+
+Ending 5：枯骨永眠（最冷结局）
+[ending_5_core]
+speaker = 勇者
+color = white
+ending = 5
+text = ……永生。\n\n避开一切。\n\n不再痛苦。\n\n\n（看着石棺）\n\n听起来……确实不错。\n\n\n（轻笑）\n\n至少，比他们死得体面一点。
+tip = 石棺内部泛起幽蓝光
+next = ending_5_voice
+
+[ending_5_voice]
+speaker = 不知名人
+color = gray
+text = 「……那不是活着。」\n\n「那只是，把死亡……拖得更久一点。」\n\n\n「你明明……已经看见了一切。」\n\n\n「为什么……还是选择逃？」
+tip = 声音罕见地带着情绪波动
+next = ending_5_end
+
+[ending_5_end]
+speaker = 勇者
+color = white
+text = ……因为。\n\n\n我不想成为你。
+tip = 棺盖缓缓闭合
+next =
