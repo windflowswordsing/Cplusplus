@@ -1,5 +1,5 @@
 # =========================
-# 场景一：破败教堂（完整版）
+# 场景一：破败教堂
 # =========================
 
 [church_enter]
@@ -14,10 +14,20 @@ color = white
 text = ……一千年。\n\n（低头看向掌心）\n\n为什么偏偏是现在？\n\n为什么召唤会晚一千年？\n\n\n……这里到底发生过什么？
 next = 
 
+# =========================
+# 神像调查（回溯触发）
+# =========================
+
 [church_statue]
 speaker = 勇者
 color = white
 text = 这尊女神像……被砸毁了。\n\n裂痕不像风化。\n\n更像是……人为破坏。\n\n（伸手触碰石像）\n\n……冰冷得像尸体一样。
+next = 
+
+[church_statue_2]
+speaker = 勇者
+color = white
+text = （再次触碰石像）\n\n裂痕深处。\n\n似乎残留着什么。\n\n……是记忆。
 next = church_statue_flash
 
 [church_statue_flash]
@@ -34,17 +44,27 @@ flashback = true
 text = 「不是神抛弃了他们。」\n\n「是他们……已经撑不住了。」\n\n远处。\n\n祭坛边缘。\n\n那道白衣身影静静站着。\n\n没有阻止。\n\n也没有解释。\n\n只是低头看着那些崩裂的神像碎片。\n\n目光里没有愤怒。\n\n只有……疲惫。
 next = 
 
+# =========================
+# 法阵调查（回溯触发）
+# =========================
+
 [church_circle]
 speaker = 勇者
 color = white
-text = ……这就是召唤阵。\n\n（指尖沿着纹路缓缓滑动）\n\n这些痕迹，被修改过很多次。\n\n有些节点甚至被重复覆盖。\n\n不像绘制。\n\n更像是在……修正某种错误。\n\n（她到底改了什么？）
+text = ……似乎就是这个把我召唤过来。\n\n（指尖沿着纹路缓缓滑动）\n\n这些痕迹，被修改过很多次。\n\n不像绘制。\n\n更像是在……修正某种错误。\n\n（她到底改了什么？）\n\n想要启动似乎缺少了什么部分……
+next = 
+
+[church_circle_2]
+speaker = 勇者
+color = white
+text = （再次触碰法阵）\n\n指尖传来微弱的震动。\n\n像是……千年前的回响。
 next = church_circle_flash
 
 [church_circle_flash]
 speaker = 祭司
 color = gray
 flashback = true
-text = 「圣女大人！」\n\n「召唤已经不能再拖了！」\n\n「结界撑不了多久！」\n\n祭司声音发颤。\n\n而祭坛中央。\n\n白衣身影始终低头修改法阵。\n\n纸张铺满地面。\n\n上面全是复杂的时间推演。
+text = 「圣女大人！」\n\n「勇者还是没有召唤来吗？！」\n\n「结界撑不了多久！」\n\n祭司声音发颤。
 next = church_circle_flash_2
 
 [church_circle_flash_2]
@@ -61,10 +81,20 @@ flashback = true
 text = 「她早就知道。」\n\n「末日已经无法逆转。」\n\n「召唤勇者……只是让另一个人送死。」\n\n祭坛上的白衣身影低着头。\n\n重新修改法阵。\n\n烛火照亮她疲惫的侧脸。\n\n那一夜。\n\n她一个人坐到了天亮。
 next = 
 
+# =========================
+# 烛台调查（回溯触发）
+# =========================
+
 [church_candle]
 speaker = 勇者
 color = white
 text = 蜡油已经凝固了。\n\n可这些烛火熄灭前。\n\n似乎燃烧了很久。\n\n（她是不是……一直守在这里？）
+next = 
+
+[church_candle_2]
+speaker = 勇者
+color = white
+text = （再次靠近烛台）\n\n烛芯残留着最后一缕烟。\n\n仿佛……刚刚才熄灭。
 next = church_candle_flash
 
 [church_candle_flash]
@@ -78,8 +108,12 @@ next = church_candle_flash_2
 speaker = 侍女
 color = gray
 flashback = true
-text = 「您为什么还不启动召唤？」\n\n空气安静很久。\n\n白衣身影终于低声开口。\n\n「……因为我见过结局。」\n\n侍女愣住。\n\n而她没有再继续解释。
+text = 「法阵召唤的勇者真的能结束末日吗？」
 next = 
+
+# =========================
+# 石门调查（回溯触发）
+# =========================
 
 [stone_door]
 speaker = 勇者
@@ -100,6 +134,10 @@ color = gray
 flashback = true
 text = 「为什么？！」\n\n「难道您已经放弃了吗？！」\n\n空气安静。\n\n白衣身影背对所有人。\n\n声音很轻。\n\n「我只是……不想再让更多人死掉。」\n\n随后。\n\n石门彻底关闭。
 next = 
+
+# =========================
+# 古井调查（回溯触发）
+# =========================
 
 [church_well]
 speaker = 勇者
@@ -137,6 +175,65 @@ color = white
 text = 金属没有彻底锈死。\n\n机器还在运转。\n\n商店里的东西甚至摆放整齐。\n\n\n（沉默很久）\n\n这里的人……\n\n不是死在灾难里。\n\n\n更像是。\n\n慢慢消失的。
 next = 
 
+# =========================
+# 幻梦机器调查（回溯触发）
+# =========================
+
+[dream_machine]
+speaker = 勇者
+color = white
+text = ……这台机器。\n\n（缓缓靠近）\n\n和周围所有东西都不一样。\n\n\n它几乎没有损坏。\n\n而且。\n\n空气里的圣力……很熟悉。\n\n\n（她留下的。）
+next = dream_machine_flash
+
+[dream_machine_flash]
+speaker = 法师
+color = gray
+flashback = true
+text = 「幻梦系统测试完成。」\n\n「进入者将获得永久精神安抚。」\n\n「能有效缓解末日创伤。」\n\n法师们终于松了口气。\n\n因为地下城里。\n\n已经出现大量精神崩溃者。
+next = dream_machine_flash_2
+
+[dream_machine_flash_2]
+speaker = 法师
+color = gray
+flashback = true
+text = 「圣女大人。」\n\n「真的要开放这个系统吗？」\n\n「一旦沉溺进去……」\n\n空气安静很久。\n\n白衣身影闭上眼。\n\n随后轻声回答。\n\n「……至少。」\n\n「他们不会那么痛苦。」
+next = dream_machine_flash_3
+
+[dream_machine_flash_3]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 她知道。\n\n有些人已经撑不住了。\n\n\n他们不是懦弱。\n\n只是太累了。\n\n\n所以她留下了幻梦。\n\n不是为了毁掉人类。\n\n而是为了——\n\n给崩溃的人最后一点温柔。
+next = 
+
+# =========================
+# 全息光屏调查（回溯触发）
+# =========================
+
+[holo_screen]
+speaker = 勇者
+color = white
+text = ……光屏还在亮。\n\n（触碰屏幕）\n\n上面全是数据。\n\n能源。\n\n人口。\n\n出生率。\n\n\n每一个数字都在下降。
+next = holo_screen_flash
+
+[holo_screen_flash]
+speaker = 学者
+color = gray
+flashback = true
+text = 「教育系统关闭。」\n\n「机械维护率下降。」\n\n「出生率持续减少。」\n\n学者看着数据。\n\n声音越来越低。\n\n\n「地下城还活着。」\n\n「可文明……正在死去。」
+next = holo_screen_flash_2
+
+[holo_screen_flash_2]
+speaker = 学者
+color = gray
+flashback = true
+text = 「圣女大人。」\n\n「我们是不是已经失败了？」\n\n远处。\n\n白衣身影沉默很久。\n\n最终。\n\n她只是轻声回答。\n\n「……至少。」\n\n「你们还活着。」\n\n可她说这句话的时候。\n\n眼里已经没有希望了。
+next = 
+
+# =========================
+# 灵智龙虾
+# =========================
+
 [lobster_meet]
 speaker = 灵智龙虾
 color = yellow
@@ -173,15 +270,6 @@ color = yellow
 text = 她其实早就知道。\n\n地下城救不了文明。\n\n\n可她还是来了。\n\n一次又一次。\n\n\n因为她始终不愿意放弃任何人。\n\n哪怕那些人……\n\n已经先放弃了自己。
 next = 
 
-[dream_machine]
-speaker = 幻梦机器
-color = blue
-text = 幻梦机器发出低沉的嗡鸣……\n\n法阵中央浮现一道空间裂隙，通往未知的远方。\n\n另一侧似乎……是沙漠。\n\n（机器表面刻着古老的铭文：\n  「入此梦者，忘却尘世。」）
-choice = 启动幻梦机器（沉沦）|dream_enter
-choice = 穿过空间裂隙（传送）|dream_teleport
-choice = 离开|dream_leave
-next = 
-
 # =========================
 # 场景三：沙漠金字塔
 # =========================
@@ -197,6 +285,10 @@ speaker = 勇者
 color = white
 text = ……原来文明死掉之后。\n\n真的连痕迹都会消失。\n\n\n（低头看向脚边）\n\n如果没人记得。\n\n那它们……真的存在过吗？
 next = 
+
+# =========================
+# 壁画调查（回溯触发）
+# =========================
 
 [pyramid_wall]
 speaker = 勇者
@@ -218,6 +310,10 @@ flashback = true
 text = 「为什么非要留下这些东西？」\n\n年轻工匠忍不住开口。\n\n「反正……大家都会死。」\n\n年迈工匠沉默很久。\n\n随后低声回答。\n\n「因为总得有人记住我们活过。」\n\n「哪怕最后——」\n\n「只剩石头。」
 next = 
 
+# =========================
+# 国王雕像调查（回溯触发）
+# =========================
+
 [pyramid_king]
 speaker = 勇者
 color = white
@@ -238,6 +334,10 @@ flashback = true
 text = 「朕听说。」\n\n「金字塔里的圣石棺……能获得永生。」\n\n「若朕不死。」\n\n「文明便不会断绝。」\n\n空气沉默。\n\n很久之后。\n\n白衣身影轻声开口。\n\n「……永生救不了文明。」\n\n国王皱起眉。\n\n可她没有继续解释。
 next = 
 
+# =========================
+# 石碑调查（回溯触发）
+# =========================
+
 [pyramid_tablet]
 speaker = 勇者
 color = white
@@ -257,6 +357,10 @@ color = gray
 flashback = true
 text = 「如果文明注定灭亡。」\n\n「那至少——」\n\n「该有人知道它存在过。」\n\n她轻轻抚过石碑。\n\n目光里没有希望。\n\n却也没有放弃。\n\n\n因为她已经开始明白。\n\n有时候。\n\n"留下痕迹"本身。\n\n就是文明最后的反抗。
 next = 
+
+# =========================
+# 石棺调查（回溯触发）
+# =========================
 
 [pyramid_coffin]
 speaker = 勇者
@@ -301,10 +405,38 @@ color = white
 text = ……他们真的反抗过。\n\n（缓缓蹲下）\n\n这些焦痕。\n\n这些断裂武器。\n\n这些烧穿的土地。\n\n都说明。\n\n这里的人直到最后一刻——\n\n也没有逃。
 next = 
 
+# =========================
+# 熔岩石调查（回溯触发）
+# =========================
+
+[volcano_rock]
+speaker = 勇者
+color = white
+text = ……这些石头。\n\n不像自然形成的。\n\n\n更像是被某种力量……烧穿。\n\n\n（伸手触碰）\n\n还残留着微弱的圣力。\n\n\n她来过这里。
+next = volcano_rock_flash
+
+[volcano_rock_flash]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 黑雾吞没天空。\n\n火山开始崩裂。\n\n人类一个接一个倒下。\n\n\n而那道白衣身影。\n\n始终站在山巅。\n\n静静看着这一切。
+next = volcano_rock_flash_2
+
+[volcano_rock_flash_2]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 她其实可以离开。\n\n可以躲进地下城。\n\n可以进入幻梦。\n\n甚至可以沉睡进石棺。\n\n\n可她没有。\n\n\n因为她不愿意逃。\n\n哪怕世界已经无药可救。\n\n她还是选择——\n\n亲眼看着文明走到最后。
+next = 
+
+# =========================
+# 守剑幽魂登场
+# =========================
+
 [volcano_ghost]
 speaker = 守剑幽魂
 color = gray
-text = ……终于。\n\n还是有人来了。\n\n\n（半透明幽魂缓缓出现）\n\n我守着这把剑。\n\n已经太久了。\n\n久到……连自己的名字都忘了。
+text = ……终于。\n\n还是等到了。\n\n\n（半透明幽魂缓缓出现）\n\n我守着这把剑。\n\n已经太久了。\n\n久到……连自己的名字都忘了。
 next = volcano_ghost_2
 
 [volcano_ghost_2]
@@ -331,6 +463,10 @@ color = gray
 text = 因为有些事情。\n\n不是"会赢"才去做。\n\n\n而是——\n\n必须有人去做。\n\n\n不然。\n\n文明就真的死干净了。
 next = 
 
+# =========================
+# 断剑选择
+# =========================
+
 [volcano_sword_choice]
 speaker = 勇者
 color = white
@@ -339,11 +475,9 @@ choice = 取走断剑|take_sword
 choice = 离开|leave_ghost
 next = 
 
-[volcano_sword]
-speaker = 勇者
-color = white
-text = ……这就是那把断剑。\n\n（缓缓握住剑柄）\n\n明明已经残缺。\n\n却还残留着很强的力量。\n\n\n她为什么没有把它带走？
-next = volcano_sword_flash
+# =========================
+# 断剑回溯
+# =========================
 
 [volcano_sword_flash]
 speaker = 不知名人
@@ -382,24 +516,52 @@ color = white
 text = ……全毁了。\n\n（低头看向地面）\n\n这些纸甚至碰一下都会碎。\n\n可奇怪的是。\n\n这里依然残留着很强的圣力。\n\n像有人直到最后——\n\n都还在守着这里。
 next = 
 
+# =========================
+# 倒塌书架调查（回溯触发）
+# =========================
+
+[library_bookshelf]
+speaker = 勇者
+color = white
+text = ……这些书架原本一定很高。\n\n（抬头望向断裂木梁）\n\n历史。\n\n魔法。\n\n天文。\n\n地理。\n\n\n他们把整个文明都搬进来了。\n\n\n像是在害怕。\n\n有一天世界会突然消失。
+next = library_bookshelf_flash
+
+[library_bookshelf_flash]
+speaker = 学者
+color = gray
+flashback = true
+text = 「把北方典籍也搬进来！」\n\n「还有历代星图！」\n\n学者们来回奔走。\n\n整个图书馆灯火通明。\n\n\n他们已经知道。\n\n外面的世界撑不了多久了。
+next = library_bookshelf_flash_2
+
+[library_bookshelf_flash_2]
+speaker = 年轻学者
+color = gray
+flashback = true
+text = 「真的有必要吗？」\n\n「如果所有人都会死……」\n\n老人缓缓整理书页。\n\n很久之后。\n\n才低声回答。\n\n「文明不是为了"现在的人"留下的。」\n\n「而是为了——」\n\n「未来还有人类的时候。」
+next = 
+
+# =========================
+# 时间手稿调查（回溯触发）
+# =========================
+
 [library_manuscript]
 speaker = 勇者
 color = white
-text = ……这些全是时间魔法。\n\n（缓缓翻开残页）\n\n推演。\n\n修改。\n\n否定。\n\n重构。\n\n每一页都写满了失败。\n\n\n（她到底算了多少次？）
+text = ……这些全是时间魔法。\n\n（缓缓翻开残页）\n\n推演。\n\n修改。\n\n否定。\n\n重构。\n\n\n每一页都写满了失败。\n\n\n（她到底算了多少次？）
 next = library_manuscript_flash
 
 [library_manuscript_flash]
 speaker = 不知名人
 color = gray
 flashback = true
-text = 深夜。\n\n整个图书馆只剩烛火。\n\n白衣身影独自坐在书桌前。\n\n桌上堆满推演稿。\n\n\n她不断修改法阵。\n\n不断重写时间节点。\n\n可每一次结果——\n\n都是毁灭。
+text = 深夜。\n\n整个图书馆只剩烛火。\n\n白衣身影独自坐在书桌前。\n\n桌上堆满推演稿。\n\n\n她不断修改法阵。\n\n不断重写时间节点。\n\n\n可每一次结果——\n\n都是毁灭。
 next = library_manuscript_flash_2
 
 [library_manuscript_flash_2]
 speaker = 不知名人
 color = gray
 flashback = true
-text = 「召唤提前三个月。」\n\n【失败】\n\n「召唤提前一年。」\n\n【失败】\n\n「召唤正常进行。」\n\n【失败】\n\n\n无论怎么推演。\n\n结果都没有改变。\n\n世界一定会毁灭。\n\n勇者一定会死。
+text = 「召唤提前三个月。」\n\n【失败】\n\n「召唤提前一年。」\n\n【失败】\n\n「召唤正常进行。」\n\n【失败】\n\n\n无论怎么推演。\n\n结果都没有改变。\n\n\n世界一定会毁灭。\n\n勇者一定会死。
 next = library_manuscript_flash_3
 
 [library_manuscript_flash_3]
@@ -409,10 +571,59 @@ flashback = true
 text = 她终于停下笔。\n\n沉默了很久。\n\n随后轻声开口。\n\n「……原来如此。」\n\n「不是召唤失败。」\n\n「而是这个世界……已经没有未来了。」\n\n\n烛火轻轻摇晃。\n\n而她第一次。\n\n露出了真正疲惫的神情。
 next = 
 
+# =========================
+# 时空通道调查（回溯触发）
+# =========================
+
+[library_corridor]
+speaker = 勇者
+color = white
+text = ……时空通道。\n\n（抬头望向扭曲的光芒）\n\n这里曾经是传送枢纽。\n\n\n可现在。\n\n只剩下残余的圣力在流动。\n\n\n她在这里……做了什么？
+next = library_corridor_flash
+
+[library_corridor_flash]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 深夜。\n\n整个图书馆空无一人。\n\n只有她还坐在书桌前。\n\n\n外面黑雾翻涌。\n\n世界正在崩塌。\n\n\n而她终于——\n\n停止了所有推演。
+next = library_corridor_flash_2
+
+[library_corridor_flash_2]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 她缓缓低头。\n\n看着最终结果。\n\n\n【文明灭亡】\n\n【世界崩塌】\n\n【勇者死亡】\n\n\n没有例外。\n\n没有奇迹。\n\n没有胜利。
+next = library_corridor_flash_3
+
+[library_corridor_flash_3]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 她沉默了很久。\n\n久到烛火都快熄灭。\n\n\n随后。\n\n她重新拿起笔。\n\n\n却没有再修改"拯救世界"的方案。\n\n\n而是——\n\n改写了召唤时间。
+next = library_corridor_flash_4
+
+[library_corridor_flash_4]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 「既然世界一定毁灭。」\n\n「那至少——」\n\n「别让无辜的人陪葬。」\n\n\n她轻轻闭上眼。\n\n终于完成了最后一次推演。\n\n\n勇者将迟到一千年。\n\n\n世界已经灭亡。\n\n可勇者——\n\n能活下来。
+next = library_corridor_flash_5
+
+[library_corridor_flash_5]
+speaker = 不知名人
+color = gray
+flashback = true
+text = 她其实从来不是在等待"救世主"。\n\n\n她只是。\n\n不愿意再多死一个人。
+next = 
+
+# =========================
+# 文明种子调查（回溯触发）
+# =========================
+
 [library_seed]
 speaker = 勇者
 color = white
-text = ……这是。\n\n（缓缓蹲下）\n\n一枚种子？\n\n不。\n\n更像是某种……被保存下来的生命。\n\n\n它还活着。
+text = ……这是。\n\n（缓缓蹲下）\n\n一枚种子？\n\n\n不。\n\n更像是某种……被保存下来的生命。\n\n\n它还活着。
 next = library_seed_flash
 
 [library_seed_flash]
@@ -522,3 +733,140 @@ speaker = 勇者
 color = white
 text = ……因为。\n\n\n我不想成为你。
 next = 
+
+# =========================
+# 以下为新增对话块
+# =========================
+
+[church_auto_flashback]
+speaker = 不知名人
+color = gray
+flashback = true
+text = ……一千年前。\n\n这里曾经满是信徒。\n\n钟声悠扬。\n\n圣光照耀。\n\n而那道白衣身影。\n\n站在祭坛之上。\n\n注视着一切。
+next = 
+
+[church_start]
+speaker = 勇者
+color = white
+text = ……圣光消失了。\n\n这里就是……召唤我的地方？\n\n断裂的神像。\n\n熄灭的烛火。\n\n空气里只有灰尘和腐朽的味道。
+next = 
+
+[dream_machine_locked]
+speaker = 勇者
+color = white
+text = ……机器没有反应。\n\n（凝视着冰冷的金属）\n\n似乎需要先做些什么。\n\n这里还有别的事，没完成。
+next = 
+
+[dream_machine_with_seed]
+speaker = 勇者
+color = white
+text = ……幻梦机器还在运转。\n\n（掌心的种子在微微震动）\n\n是要沉入幻梦，还是带着种子离开？
+choice = 沉入幻梦|dream_enter
+choice = 带着种子离开|leave_dream
+next = 
+
+[well_clear]
+speaker = 勇者
+color = white
+text = ……井口的石块被搬开了。\n\n（俯身向下望去）\n\n下面通往地下深处。\n\n再次靠近，就能下去。
+next = 
+
+[stone_door_locked]
+speaker = 勇者
+color = white
+text = ……石门紧闭。\n\n（手掌贴上门）\n\n结界没有攻击我。\n\n却在拒绝我。\n\n似乎需要某种证明，才能打开它。
+next = 
+
+[pick_seed]
+speaker = 勇者
+color = white
+text = ……拿到了种子。\n\n（小心翼翼地捧在手心）\n\n这是她留下的。\n\n文明最后的记录。
+next = 
+
+[pick_sword]
+speaker = 勇者
+color = white
+text = ……拿到了断剑。\n\n（紧握剑柄）\n\n冰冷。\n\n但有重量。\n\n像是她留给我的回信。
+next = 
+
+[seed_discovered]
+speaker = 勇者
+color = white
+text = ……容器里。\n\n竟然还有一枚种子。\n\n（缓缓伸出手）\n\n它还活着。\n\n它在……等什么？
+next = 
+
+[manuscript_locked]
+speaker = 勇者
+color = white
+text = ……一堆残破的纸页。\n\n上面的字迹模糊不清。\n\n似乎需要某种媒介，才能读懂上面的内容。
+next = 
+
+[manuscript_choice]
+speaker = 勇者
+color = white
+text = ……手稿上的字。\n\n开始浮现。\n\n这是她推演时间的记录。\n\n如果用种子的力量。\n\n或许可以……\n\n回到千年之前。
+choice = 研究手稿|study_manuscript
+choice = 暂时离开|leave_manuscript
+next = 
+
+[final_choice]
+speaker = 勇者
+color = white
+text = ……法阵亮起了。\n\n（手中的种子开始震动）\n\n这是最后的选择。\n\n种子，承载了三种力量。\n\n而我的选择，便是世界的终局。
+choice = 种下种子（文明新生）|ending_newborn
+choice = 回到原本世界（归世幻梦）|ending_dream
+choice = 逆流千年（逆时赴约）|ending_time
+next = 
+
+[stone_coffin_locked]
+speaker = 勇者
+color = white
+text = ……石棺紧闭。\n\n（指尖滑过棺盖）\n\n上面似乎有某种封印。\n\n需要先解读铭文，才能打开。
+next = 
+
+[stone_coffin]
+speaker = 勇者
+color = white
+text = ……石棺开启了。\n\n（一股寒气扑面而来）\n\n躺进去。\n\n就能获得永生。\n\n（沉默）\n\n但这真的是我想要的吗？
+choice = 躺入石棺|coffin_enter
+choice = 离开|leave_coffin
+next = 
+
+[wall_painting]
+speaker = 勇者
+color = white
+text = 这些壁画……还没有完全磨灭。\n\n（伸手扫开黄沙）\n\n河流。\n\n集市。\n\n孩童。\n\n庆典。\n\n他们把"活着"的模样刻在了石头上。
+next = pyramid_wall_flash
+
+[stone_tablet]
+speaker = 勇者
+color = white
+text = 石碑上的字……还很清晰。\n\n（缓缓念出）\n\n"山河有尽。"\n\n"文明有痕。"\n\n"有缘之人，自循迹而来。"\n\n（石棺的封印似乎松动了。）
+next = pyramid_tablet_flash
+
+[loop_shock]
+speaker = 勇者
+color = white
+text = ……我又回来了。\n\n（环顾四周）\n\n这里就是最初的教堂。\n\n但似乎，多了什么。\n\n（看向手心的种子）\n\n是了。\n\n这一次，我终于明白了。
+next = 
+
+[library_auto_flashback]
+speaker = 不知名人
+color = gray
+flashback = true
+text = ……图书馆。\n\n这里曾经满是典籍。\n\n而那道白衣身影。\n\n独自坐在书桌前。\n\n推演时间。\n\n直到最后一刻。
+next = 
+
+[sword_ghost_choice]
+speaker = 勇者
+color = white
+text = ……这把断剑。\n\n就是她留下的。
+choice = 取走断剑|take_sword
+choice = 离开|leave_ghost
+next = 
+
+[lobster]
+speaker = 灵智龙虾
+color = yellow
+text = ……终于。\n\n还是有人来了。\n\n（一只赤红龙虾缓缓爬出）\n\n我等了太久。\n\n久到……已经忘记时间。
+next = lobster_meet_2

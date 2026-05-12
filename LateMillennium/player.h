@@ -2,43 +2,39 @@
 #define PLAYER_H
 
 #include <QRect>
-#include <QKeyEvent>
 #include <QStringList>
+#include <QKeyEvent>
 
-class Player
-{
+class Player {
 public:
     Player();
-
+    void reset();
     void update();
+    void land();
     void keyPress(QKeyEvent *e);
     void keyRelease(QKeyEvent *e);
 
     QRect& rect() { return m_rect; }
     const QRect& rect() const { return m_rect; }
-    void setPos(int x, int y) { m_rect.moveTo(x, y); }
+    void setPos(int x, int y);
 
-    void addProp(const QString &p) { if (!m_props.contains(p)) m_props << p; }
-    bool hasProp(const QString &p) const { return m_props.contains(p); }
+    float getVx() const { return m_vx; }
+    float getVy() const { return m_vy; }
+
     QStringList props() const { return m_props; }
+    void addProp(const QString &p);
+    bool hasProp(const QString &p) const;
     void clearProps() { m_props.clear(); }
 
-    int sceneId = 0; // 0=教堂 1=地下城 2=金字塔 3=火山 4=图书馆 5=终局
-
-    bool facingRight = true;
-    int getVx() const { return vx; }
-    int getVy() const { return vy; }
-    void land() { vy = 0; onGround = true; }
+    int sceneId;
+    bool facingRight;
 
 private:
     QRect m_rect;
-    int vx, vy;
-    bool onGround;
+    float m_vx, m_vy;
+    bool m_onGround;
+    bool m_keyLeft, m_keyRight;
     QStringList m_props;
-
-    const int GRAVITY = 2;
-    const int JUMP = -16;
-    const int SPEED = 5;
 };
 
-#endif // PLAYER_H
+#endif

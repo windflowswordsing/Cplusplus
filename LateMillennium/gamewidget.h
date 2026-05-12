@@ -15,11 +15,11 @@
 
 // 游戏状态
 enum class GameState {
-    Intro,       // 开场画面（诗句）
+    Intro,       // 开场画面（诗句）- 保留声明，实际未使用
     Title,       // 标题画面
     Playing,     // 正常游戏
     Dialog,      // 对话中
-    Flashback,   // 回溯动画
+    Flashback,   // 回溯动画 - 保留声明，实际未使用
     Choice,      // 选择分支
     Ending       // 结局展示
 };
@@ -49,41 +49,49 @@ private:
     // === 重置游戏 ===
     void resetGame();
 
-    // === 回溯系统 ===
+    // === 对话系统 ===
+    void startDialog(const QString &key);
+    void advanceDialog();
+    void handleDialogEnd();
+    void syncFlashbackBg();
+
+    // === 回溯系统（保留声明，实际由对话系统处理） ===
     void startFlashback(const QString &trigger);
-    void startLibraryFlashback();  // 场景4自动回溯
+    void startLibraryFlashback();
     void updateFlashback();
 
     // === 结局 ===
     void triggerEnding(int type);
 
     // === 渲染 ===
-    void drawIntro(QPainter &p);
+    void drawIntro(QPainter &p);       // 保留声明，实际未使用
     void drawTitle(QPainter &p);
     void drawGame(QPainter &p);
     void drawPlayer(QPainter &p);
     void drawProps(QPainter &p);
     void drawNpcs(QPainter &p);
     void drawDialog(QPainter &p);
-    void drawFlashback(QPainter &p);
+    void drawFlashback(QPainter &p);   // 保留声明，实际未使用
     void drawEnding(QPainter &p);
     void drawHUD(QPainter &p);
-    // void drawHintButton(QPainter &p);  // 已删除，提示改为左上角直接显示
     void drawPixelRect(QPainter &p, QRect r, QColor c);
     void drawPixelGround(QPainter &p);
-    void drawPixelPlatform(QPainter &p, QRect plat, int sceneId);
-    void drawScrollingBg(QPainter &p);  // 卷轴背景（视差滚动）
+    void drawScrollingBg(QPainter &p);
 
     // === 图片处理 ===
-    static QPixmap removeBackground(const QPixmap &pixmap, QColor bgColor, int threshold = 30); // 自动去底色
+    static QPixmap removeBackground(const QPixmap &pixmap, QColor bgColor, int threshold = 30);
+
+    // === 资源加载 ===
+    QString findResDir() const;
+    QPixmap loadTransparent(const QString &name, QColor bg, int thr);
 
     // === 交互检测 ===
-    bool isNearInteractable() const; // 检测玩家是否靠近可交互对象
+    bool isNearInteractable() const;
 
     // === 核心对象 ===
     Player player;
     Scene scene;
-    Dialogue dialogue;
+    Dialogue *dialogue;          // 指针类型，在构造函数中 new，resetGame 中 delete+new
 
     // === 游戏状态 ===
     GameState state;
@@ -95,8 +103,8 @@ private:
     bool dialogHasChoices;
 
     // === 回溯动画 ===
-    int flashbackTimer;     // 回溯动画计时（帧数）
-    static const int FLASHBACK_DURATION = 180; // 3秒@60fps
+    int flashbackTimer;
+    static const int FLASHBACK_DURATION = 180;
     QColor flashbackBgColor;
     QString flashbackText;
 
@@ -109,47 +117,56 @@ private:
 
     // === 标记 ===
     bool flashbackUsed;
-    bool showingFlashbackBg;  // 是否正在显示回溯盛景背景
-    QSet<int> flashbackUsedScenes;  // 已使用过回溯的场景ID集合
-    bool churchStartShown;  // 教堂初始独白是否已显示
-    bool loopShockShown;    // 终局震惊独白是否已显示
-    bool swordPicked;       // 断剑是否已拾取
-    bool seedPicked;        // 种子是否已拾取
-    bool lobsterSaved;      // 龙虾是否已救（触发对话后）
-    bool lobsterFreed;      // 龙虾是否已释放（第一次互动，切换图片）
-    bool wellCleared;       // 古井是否已疏通（场景0）
-    bool dreamMachineInteracted; // 幻梦机器是否已交互（场景1）
-    bool coffinUnlocked;         // 石棺是否已解锁（场景2铭文触发）
-    bool pendingTeleport;         // 对话结束后是否传送
-    int pendingTeleportScene;     // 传送目标场景
-    bool libraryFlashbackShown;   // 场景4回溯是否已触发
-    bool seedDiscovered;          // 种子是否已发现（场景5容器互动后）
-    bool manuscriptRevealed;      // 魔法书是否已显现（书架互动后）
-    bool returnedFromScene6;      // 是否从场景六回到场景一
-    bool swordDropped;            // 断剑是否已掉落（幽魂互动后）
+    bool showingFlashbackBg;
+    QSet<int> flashbackUsedScenes;
+    bool churchStartShown;
+    bool statueTalked;                // 女神像第一次互动标记
+    bool circleTalked;                // 法阵第一次互动标记
+    bool candleTalked;                // 烛台第一次互动标记
+    bool loopShockShown;
+    bool swordPicked;
+    bool seedPicked;
+    bool lobsterSaved;
+    bool lobsterFreed;
+    bool wellCleared;
+    bool dreamMachineInteracted;     // 保留（兼容旧场景数据）
+    bool dreamMachineUnlocked;       // 新代码使用
+    bool coffinUnlocked;
+    bool pendingTeleport;            // 保留（兼容旧逻辑）
+    int pendingTeleportScene;        // 保留（兼容旧逻辑）
+    bool libraryFlashbackShown;
+    bool seedDiscovered;
+    bool manuscriptRevealed;         // 保留（兼容旧逻辑）
+    bool returnedFromScene6;         // 保留（兼容旧逻辑）
+    bool returnedFromLibrary;        // 新代码使用
+    bool swordDropped;
+    bool ghostTalked;                // 新代码使用
 
     // === 提示按钮 ===
-    bool showHintButton;    // 是否显示提示按钮
-    QRect hintButtonRect;   // 提示按钮区域
-    QString hintText;       // 提示内容
-    bool showHintPanel;     // 是否显示提示面板
+    bool showHintButton;
+    QRect hintButtonRect;
+    QString hintText;
+    bool showHintPanel;
 
     // === 操作提示（首次进入游戏） ===
-    bool controlHintShown;  // 操作提示是否已显示过
-    int controlHintTimer;   // 操作提示显示计时（帧数）
+    bool controlHintShown;
+    int controlHintTimer;
+
+    // === 资源目录 ===
+    QString resDir;
 
     // === 背景图片 ===
-    QPixmap bgChurch;               // 教堂背景图（废墟）
-    QList<QPixmap> sceneBg;         // 6个场景的废墟背景 [0~5]
-    QList<QPixmap> sceneBgFlashback;// 5个场景的回溯盛景背景 [0~4]
+    QPixmap bgChurch;
+    QList<QPixmap> sceneBg;
+    QList<QPixmap> sceneBgFlashback;
 
     // === 玩家精灵图 ===
-    QPixmap playerIdle;         // 静止帧
-    QList<QPixmap> playerWalkR; // 向右走3帧
-    QList<QPixmap> playerWalkL; // 向左走3帧
-    int animFrame;              // 当前动画帧
-    int animTimer;              // 动画计时器
-    bool spritesLoaded;         // 精灵图是否加载成功
+    QPixmap playerIdle;
+    QList<QPixmap> playerWalkR;
+    QList<QPixmap> playerWalkL;
+    int animFrame;
+    int animTimer;
+    bool spritesLoaded;
 };
 
 #endif // GAMEWIDGET_H

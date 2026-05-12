@@ -70,8 +70,8 @@ void Scene::load(int sceneId)
 
         // 道具（全部放在地面上）
         m_props << Prop("pyramid", 400, 380, 200, 240, QColor(160, 140, 90), "金字塔"); // 装饰性，底部在地面
-        m_props << Prop("pyramid_flashback_item", 150, 580, 60, 40, QColor(140, 120, 70), "古老的陶罐"); // 回溯触发物品
-        // 壁画、铭文、石棺使用图片绘制，不在此处定义
+        m_props << Prop("wall_painting", 550, 490, 100, 130, QColor(150, 130, 90), "繁华壁画"); // 壁画（可交互，触发回溯）
+        // 铭文、石棺使用图片绘制，不在此处定义
         m_props << Prop("sand_drift", 100, 600, 1280, 20, QColor(160, 140, 80), ""); // 沙地装饰
 
         // 出口
@@ -90,11 +90,10 @@ void Scene::load(int sceneId)
         m_platforms << QRect(0, 620, 1280, 100);
 
         // 道具
-        m_props << Prop("lava_rock1", 200, 595, 32, 25, QColor(60, 40, 35), "");
-        m_props << Prop("lava_rock2", 500, 590, 40, 30, QColor(55, 38, 32), "");
+        m_props << Prop("lava_rock1", 200, 595, 32, 25, QColor(60, 40, 35), "熔岩石");
+        m_props << Prop("lava_rock2", 500, 590, 40, 30, QColor(55, 38, 32), "熔岩石");
         m_props << Prop("ember_ground", 0, 615, 1280, 5, QColor(80, 30, 20), ""); // 灰烬
         m_props << Prop("broken_sword", 820, 590, 40, 30, QColor(180, 180, 200), "断剑"); // 断剑（初始隐藏）
-        m_props << Prop("volcano_flashback_item", 350, 580, 50, 40, QColor(100, 80, 70), "烧焦的日记"); // 回溯触发物品
 
         // NPC
         m_npcs << Npc("sword_ghost", 820, 560, 24, 60, QColor(150, 150, 160, 100), "守剑幽魂");
@@ -119,7 +118,6 @@ void Scene::load(int sceneId)
         m_props << Prop("manuscript_hidden", 500, 580, 60, 40, QColor(200, 190, 160), ""); // 魔法书（地面）
         m_props << Prop("seed_vessel", 700, 570, 60, 50, QColor(200, 180, 100), ""); // 种子容器（地面）
         m_props << Prop("portal_door", 1050, 420, 100, 200, QColor(100, 100, 150), "传送门");
-        m_props << Prop("library_flashback_item", 900, 580, 60, 40, QColor(120, 110, 100), "散落的笔记"); // 回溯触发物品
 
         // 出口：传送门回到场景1
         m_exits << SceneExit{QRect(1050, 420, 100, 200), 0, 200, 300, ""}; // 传送门→教堂（出现在门旁边）
