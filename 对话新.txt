@@ -1,5 +1,5 @@
 # =========================
-# 场景一：破败教堂（完整版）
+# 场景一：破败教堂
 # 双时间层结构：
 # reality = 现实遗迹交互
 # flashback = 千年前回溯
@@ -100,37 +100,7 @@ text = 「她早就知道。」\n\n「末日已经无法逆转。」\n\n「召�
 tip = 法阵中央开始出现时间偏移纹路
 next =
 
-# =========================
-# 长椅调查
-# =========================
 
-[church_bench]
-type = reality
-speaker = 勇者
-color = white
-text = 长椅已经腐朽了。\n\n轻轻碰一下，就开始掉落木屑。\n\n（这里曾经坐满了人吧。）\n\n他们祈祷。\n\n等待。\n\n相信会有救世主降临。\n\n可最后。\n\n这里只剩灰尘。
-tip = 长椅下方散落着大量蜡油
-next = church_bench_flash
-
-
-[church_bench_flash]
-type = flashback
-speaker = 民众
-color = gray
-flashback = true
-text = 「勇者真的会来吗？」\n\n「如果连勇者都赢不了怎么办？」\n\n「我们是不是……已经没救了？」\n\n长椅上的人越来越少。\n\n有人逃离教堂。\n\n有人彻夜祈祷。\n\n还有人开始沉默。
-tip = 教堂内的烛火正在逐渐熄灭
-next = church_bench_flash_2
-
-
-[church_bench_flash_2]
-type = flashback
-speaker = 老人
-color = gray
-flashback = true
-text = 「孩子。」\n\n「人总得相信点什么。」\n\n「哪怕最后什么都改变不了。」\n\n老人望向祭坛。\n\n远处。\n\n白衣身影安静坐在那里。\n\n像一座快要熄灭的灯。
-tip = 教堂钟声正在远处回荡
-next =
 
 # =========================
 # 烛台调查
@@ -259,47 +229,6 @@ color = white
 text = ……下面居然还有城市。\n\n（缓缓落地）\n\n空气很冷。\n\n却没有尸臭。\n\n没有腐烂。\n\n甚至连灯……都还亮着。\n\n\n这里不像废墟。\n\n更像是——\n\n被时间遗忘的地方。
 tip = 地下城能源仍在低功率运行
 next = dungeon_enter_2
-
-
-[dungeon_enter_2]
-type = reality
-speaker = 勇者
-color = white
-text = 金属没有彻底锈死。\n\n机器还在运转。\n\n商店里的东西甚至摆放整齐。\n\n\n（沉默很久）\n\n这里的人……\n\n不是死在灾难里。\n\n\n更像是。\n\n慢慢消失的。
-tip = 地面残留大量生活痕迹
-next =
-
-# =========================
-# 金属街道调查
-# =========================
-
-[dungeon_street]
-type = reality
-speaker = 勇者
-color = white
-text = ……这地方曾经很繁华。\n\n（抬头望向高处霓虹）\n\n他们把“白天”搬到了地下。\n\n\n连天空都伪造出来了。\n\n\n可为什么。\n\n我却感觉不到一点“活着”的气息？
-tip = 天花板投影系统仍在模拟天空
-next = dungeon_street_flash
-
-
-[dungeon_street_flash]
-type = flashback
-speaker = 孩童
-color = gray
-flashback = true
-text = 「妈妈！」\n\n「今天的天空是蓝色的！」\n\n孩子们在街道奔跑。\n\n人工投影洒下温暖阳光。\n\n商店灯光明亮。\n\n街边甚至还有音乐。\n\n\n地下城的人们开始相信——\n\n人类真的能延续下去。
-tip = 回溯中的街道充满人流
-next = dungeon_street_flash_2
-
-
-[dungeon_street_flash_2]
-type = flashback
-speaker = 母亲
-color = gray
-flashback = true
-text = 「别乱跑。」\n\n女人轻轻拉住孩子。\n\n随后抬头望向高处。\n\n远处。\n\n白衣身影正安静站在高台。\n\n\n女人低声开口。\n\n「多亏了她。」\n\n「不然我们早就死在外面了。」
-tip = 白衣身影正在俯视整座地下城
-next =
 
 # =========================
 # 机械工坊调查
