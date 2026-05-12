@@ -231,45 +231,129 @@ tip = 地下城能源仍在低功率运行
 next = dungeon_enter_2
 
 # =========================
-# 机械工坊调查
+# 幻梦机器调查
 # =========================
 
-[dungeon_factory]
+[dream_machine]
 type = reality
 speaker = 勇者
 color = white
-text = 这里原本应该是工坊。\n\n（拾起地上的机械零件）\n\n所有工具都还在。\n\n可没人继续工作。\n\n\n……为什么？
-tip = 工作台仍保持使用状态
-next = dungeon_factory_flash
+text = ……这台机器。\n\n（缓缓靠近）\n\n和周围所有东西都不一样。\n\n\n它几乎没有损坏。\n\n而且。\n\n空气里的圣力……很熟悉。\n\n\n（她留下的。）
+tip = 机器内部传出低沉嗡鸣
+next = dream_machine_flash
 
 
-[dungeon_factory_flash]
+[dream_machine_flash]
+type = flashback
+speaker = 法师
+color = gray
+flashback = true
+text = 「幻梦系统测试完成。」\n\n「进入者将获得永久精神安抚。」\n\n「能有效缓解末日创伤。」\n\n法师们终于松了口气。\n\n因为地下城里。\n\n已经出现大量精神崩溃者。
+tip = 回溯中的机器仍在调试
+next = dream_machine_flash_2
+
+
+[dream_machine_flash_2]
+type = flashback
+speaker = 法师
+color = gray
+flashback = true
+text = 「圣女大人。」\n\n「真的要开放这个系统吗？」\n\n「一旦沉溺进去……」\n\n空气安静很久。\n\n白衣身影闭上眼。\n\n随后轻声回答。\n\n「……至少。」\n\n「他们不会那么痛苦。」
+tip = 幻梦机器亮起柔和暖光
+next = dream_machine_flash_3
+
+
+[dream_machine_flash_3]
+type = flashback
+speaker = 不知名人
+color = gray
+flashback = true
+text = 她知道。\n\n有些人已经撑不住了。\n\n\n他们不是懦弱。\n\n只是太累了。\n\n\n所以她留下了幻梦。\n\n不是为了毁掉人类。\n\n而是为了——\n\n给崩溃的人最后一点温柔。
+tip = 白衣身影轻轻触碰机器表面
+next = dream_machine_choice
+
+
+[dream_machine_choice]
+type = reality
+speaker = 勇者
+color = white
+text = ……这台机器，还能运行。\n\n（看向控制台）\n\n它连接着不同的地方。\n\n\n（要选择哪一个？）
+tip = 幻梦机器面板亮起三个选项
+choice = 前往沙漠金字塔|go_desert
+choice = 继续向前|go_forward
+choice = 沉入幻梦|ending_dream
+next =
+
+# =========================
+# 能源核心/光屏调查（合并工坊、酒馆）
+# =========================
+
+[dungeon_core]
+type = reality
+speaker = 勇者
+color = white
+text = ……能源还很充足。\n\n（抬头望向巨大核心）\n\n地下城并不是因为资源耗尽毁灭的。\n\n\n那为什么……\n\n这里还是死了？
+tip = 能源核心仍稳定运行
+next = dungeon_core_flash
+
+
+[dungeon_core_flash]
+type = flashback
+speaker = 学者
+color = gray
+flashback = true
+text = 「教育系统关闭。」\n\n「机械维护率下降。」\n\n「出生率持续减少。」\n\n学者看着数据。\n\n声音越来越低。\n\n\n「地下城还活着。」\n\n「可文明……正在死去。」
+tip = 数据终端不断报警
+next = dungeon_core_flash_2
+
+
+[dungeon_core_flash_2]
 type = flashback
 speaker = 工匠
 color = gray
 flashback = true
 text = 「快点！」\n\n「东区能源管道又坏了！」\n\n工坊里火花四溅。\n\n机械轰鸣。\n\n每个人都忙得满头大汗。\n\n\n因为他们知道。\n\n地下城一旦停止运转。\n\n所有人都会死。
 tip = 回溯中的工坊仍全速运行
-next = dungeon_factory_flash_2
+next = dungeon_core_flash_3
 
 
-[dungeon_factory_flash_2]
+[dungeon_core_flash_3]
 type = flashback
 speaker = 年轻工匠
 color = gray
 flashback = true
 text = 「为什么只有我们在工作？」\n\n「那些人却在喝酒享乐？」\n\n空气沉默。\n\n老工匠低头修理机械。\n\n很久之后。\n\n才低声回答。\n\n「因为有人已经不想活了。」\n\n「而我们……还没放弃。」
 tip = 工坊外传来酒馆音乐声
-next = dungeon_factory_flash_3
+next = dungeon_core_flash_4
 
 
-[dungeon_factory_flash_3]
+[dungeon_core_flash_4]
 type = flashback
-speaker = 不知名人
+speaker = 居民
 color = gray
 flashback = true
-text = 白衣身影站在工坊门口。\n\n静静看着那些工匠。\n\n她知道。\n\n真正维持文明的。\n\n从来不是机器。\n\n而是——\n\n仍愿意承担痛苦的人。
-tip = 圣力正在工坊内部流动
+text = 「喝！」\n\n「外面已经完蛋了！」\n\n「现在活着就行！」\n\n灯光闪烁。\n\n音乐刺耳。\n\n人群疯狂大笑。\n\n\n没人再提"未来"。\n\n没人再提"文明"。
+tip = 回溯中的酒馆异常热闹
+next = dungeon_core_flash_5
+
+
+[dungeon_core_flash_5]
+type = flashback
+speaker = 老者
+color = gray
+flashback = true
+text = 「你们疯了吗？！」\n\n「地下城是最后的火种！」\n\n「如果连这里都放弃——」\n\n年轻人不耐烦打断。\n\n「那又怎么样？」\n\n「反正迟早都会灭亡。」\n\n「至少现在别活得那么累。」
+tip = 周围人群逐渐开始起哄
+next = dungeon_core_flash_6
+
+
+[dungeon_core_flash_6]
+type = flashback
+speaker = 学者
+color = gray
+flashback = true
+text = 「圣女大人。」\n\n「我们是不是已经失败了？」\n\n远处。\n\n白衣身影沉默很久。\n\n最终。\n\n她只是轻声回答。\n\n「……至少。」\n\n「你们还活着。」\n\n可她说这句话的时候。\n\n眼里已经没有希望了。
+tip = 地下城灯光开始逐渐熄灭
 next =
 
 # =========================
@@ -391,6 +475,24 @@ next =
 # =========================
 # 灵智龙虾
 # =========================
+
+[lobster_question]
+type = reality
+speaker = 勇者
+color = white
+text = 那你觉得——\n\n他们，是被末日杀死的？\n\n还是，被自己毁掉的？
+tip = 龙虾的触须微微颤动，似乎在思考
+next = lobster_answer
+
+[lobster_answer]
+type = reality
+speaker = 灵智龙虾
+color = yellow
+text = ……末日，只是开始。\n\n真正结束他们的——是选择。\n\n（声音低沉）\n\n有人选择对抗，有人选择逃避。\n\n有人选择守住希望……\n\n有人，选择把希望亲手扔掉。\n\n\n……你呢？\n\n你会选哪一种？
+tip = 幻梦机器的光微微亮了一瞬
+choice = 我不会逃|lobster_resolve
+choice = ……我不知道|lobster_doubt
+next =
 
 [lobster_meet]
 type = reality
@@ -516,8 +618,30 @@ color = gray
 flashback = true
 text = 「为什么非要留下这些东西？」\n\n年轻工匠忍不住开口。\n\n「反正……大家都会死。」\n\n年迈工匠沉默很久。\n\n随后低声回答。\n\n「因为总得有人记住我们活过。」\n\n「哪怕最后——」\n\n「只剩石头。」
 tip = 雕刻声不断回荡
+next = pyramid_wall_flash_3
+
+
+[pyramid_wall_flash_3]
+type = flashback
+speaker = 百姓
+color = gray
+flashback = true
+text = 「她又来了。」\n\n「那个白衣圣者。」\n\n「她在水源旁留下了新的圣痕。」\n\n百姓们围在绿洲边缘。\n\n神色复杂。\n\n有人敬畏。\n\n有人感激。\n\n也有人恐惧。
+tip = 回溯中的绿洲仍未枯萎
+next = pyramid_wall_flash_4
+
+
+[pyramid_wall_flash_4]
+type = flashback
+speaker = 百姓
+color = gray
+flashback = true
+text = 「为什么她从来不告诉我们结果？」\n\n「为什么她从不说……我们能赢？」\n\n老人沉默很久。\n\n低声开口。\n\n「因为她不想骗我们。」\n\n空气忽然安静。\n\n远处。\n\n白衣身影缓缓离开。\n\n没有回头。
+tip = 远方天空已经开始出现黑雾
 next =
 
+# =========================
+# 石碑调查
 # =========================
 # 圣痕调查
 # =========================
@@ -721,35 +845,105 @@ tip = 地面散落大量农具残骸
 next =
 
 # =========================
-# 焦黑村庄调查
+# 断剑调查（合并村庄、武器、悬崖）
 # =========================
 
-[volcano_village]
+[volcano_sword]
 type = reality
 speaker = 勇者
 color = white
-text = ……村庄。\n\n（推开烧焦木门）\n\n这里曾经有人生活。\n\n\n桌上的碗还摆着。\n\n火炉里甚至还有炭灰。\n\n\n可所有人都消失了。\n\n像是某一天。\n\n整个世界突然停止。
-tip = 房屋存在严重灼烧痕迹
-next = volcano_village_flash
+text = ……这就是那把断剑。\n\n（缓缓握住剑柄）\n\n明明已经残缺。\n\n却还残留着很强的力量。\n\n\n她为什么没有把它带走？
+tip = 剑身圣纹正在发光
+next = volcano_sword_flash
 
 
-[volcano_village_flash]
+[volcano_sword_flash]
 type = flashback
 speaker = 村民
 color = gray
 flashback = true
 text = 「黑雾来了！」\n\n「快逃！」\n\n村庄瞬间混乱。\n\n有人抱着孩子奔跑。\n\n有人疯狂收拾粮食。\n\n还有人跪在地上哭。\n\n\n远处天空。\n\n黑雾像海啸一样压下来。
 tip = 回溯中的村庄仍完整
-next = volcano_village_flash_2
+next = volcano_sword_flash_2
 
 
-[volcano_village_flash_2]
+[volcano_sword_flash_2]
 type = flashback
-speaker = 村民
+speaker = 农夫
 color = gray
 flashback = true
-text = 「逃不掉的……」\n\n老人瘫坐在地。\n\n眼神空洞。\n\n「所有地方都已经沦陷了。」\n\n\n空气死寂。\n\n没有人反驳。\n\n因为所有人都知道。\n\n他说的是事实。
-tip = 黑雾已经覆盖远方山脉
+text = 「拿上东西！」\n\n「跟那些怪物拼了！」\n\n男人们冲向火山。\n\n有人手里拿着锄头。\n\n有人背着猎弓。\n\n甚至还有人只拿着木棍。\n\n\n他们知道赢不了。\n\n可还是去了。
+tip = 回溯中的火山仍未喷发
+next = volcano_sword_flash_3
+
+
+[volcano_sword_flash_3]
+type = flashback
+speaker = 年轻猎手
+color = gray
+flashback = true
+text = 「明知道会死。」\n\n「为什么还去？」\n\n男人沉默很久。\n\n随后低声回答。\n\n「因为总得有人站出来。」\n\n「不然。」\n\n「连"人"都算不上了。」
+tip = 村民们正在向山顶集结
+next = volcano_sword_flash_4
+
+
+[volcano_sword_flash_4]
+type = flashback
+speaker = 白发老者
+color = gray
+flashback = true
+text = 「那位圣者曾站在这里。」\n\n「整整一夜。」\n\n老人望向山巅。\n\n神情复杂。\n\n「她看着山下的村庄。」\n\n「一句话都没说。」
+tip = 回溯中的山风异常剧烈
+next = volcano_sword_flash_5
+
+
+[volcano_sword_flash_5]
+type = flashback
+speaker = 白发老者
+color = gray
+flashback = true
+text = 「后来。」\n\n「她亲手折断了自己的佩剑。」\n\n空气安静。\n\n老人缓缓闭上眼。\n\n「那时候我才明白。」\n\n「她已经知道。」\n\n「世界救不了了。」
+tip = 白衣身影正在崖边伫立
+next = volcano_sword_flash_6
+
+
+[volcano_sword_flash_6]
+type = flashback
+speaker = 不知名人
+color = gray
+flashback = true
+text = 风吹起她的白衣。\n\n她低头看着手中的剑。\n\n很久之后。\n\n缓缓折断。\n\n\n没有愤怒。\n\n没有哭泣。\n\n只有一种……\n\n近乎疲惫的平静。\n\n\n像终于接受了什么。
+tip = 剑身正在缓缓断裂
+next = volcano_sword_flash_7
+
+
+[volcano_sword_flash_7]
+type = flashback
+speaker = 不知名人
+color = gray
+flashback = true
+text = 「如果未来还有人来到这里。」\n\n「就把它交给那个人。」\n\n白衣身影将断剑插进岩石。\n\n声音很轻。\n\n像已经非常疲惫。
+tip = 回溯中的断剑仍完整
+next = volcano_sword_flash_8
+
+
+[volcano_sword_flash_8]
+type = flashback
+speaker = 守剑者
+color = gray
+flashback = true
+text = 「为什么是未来的人？」\n\n空气沉默很久。\n\n随后。\n\n她低声开口。\n\n「因为现在的人……已经没有未来了。」\n\n守剑者愣住。\n\n而她没有继续解释。
+tip = 黑雾正在逼近火山
+next = volcano_sword_flash_9
+
+
+[volcano_sword_flash_9]
+type = flashback
+speaker = 不知名人
+color = gray
+flashback = true
+text = 她其实早就知道。\n\n火山上的那些人会死。\n\n地下城最终也会沉沦。\n\n教堂的召唤无法拯救世界。\n\n\n可即便如此。\n\n她还是留下了剑。\n\n留下了路。\n\n留下了"后来"。\n\n\n因为她始终相信。\n\n哪怕世界毁灭。\n\n也该有人——\n\n继续走下去。
+tip = 白衣身影缓缓离开山巅
 next =
 
 # =========================
@@ -885,8 +1079,8 @@ next = volcano_ghost_2
 type = reality
 speaker = 勇者
 color = white
-text = ……为什么守在这里？
-tip = 幽魂缓缓抬头
+text = ……你是谁？
+tip = 幽魂缓缓低头
 next = volcano_ghost_3
 
 
@@ -894,8 +1088,8 @@ next = volcano_ghost_3
 type = reality
 speaker = 守剑幽魂
 color = gray
-text = 因为她说。\n\n未来会有人来。\n\n\n会有人看见这里。\n\n会有人知道。\n\n这里的人……曾经反抗过。\n\n\n哪怕输了。\n\n也没有跪下。
-tip = 火山风声突然变大
+text = ……忘了。\n\n名字这种东西。\n\n死得太久。\n\n就留不住了。
+tip = 幽魂声音低哑飘忽
 next = volcano_ghost_4
 
 
@@ -903,8 +1097,8 @@ next = volcano_ghost_4
 type = reality
 speaker = 勇者
 color = white
-text = ……明知道会输。\n\n为什么还要战斗？
-tip = 幽魂沉默很久
+text = ……为什么留在这里？
+tip = 火山深处传来低沉轰鸣
 next = volcano_ghost_5
 
 
@@ -912,10 +1106,75 @@ next = volcano_ghost_5
 type = reality
 speaker = 守剑幽魂
 color = gray
-text = 因为有些事情。\n\n不是“会赢”才去做。\n\n\n而是——\n\n必须有人去做。\n\n\n不然。\n\n文明就真的死干净了。
-tip = 幽魂身形开始逐渐透明
+text = ……也忘了。\n\n\n只记得。\n\n有人让我等。\n\n于是我就一直等到了现在。
+tip = 幽魂缓缓望向断剑
+next = volcano_ghost_6
+
+
+[volcano_ghost_6]
+type = reality
+speaker = 勇者
+color = white
+text = ……是谁？
+tip = 风忽然变大
+next = volcano_ghost_7
+
+
+[volcano_ghost_7]
+type = reality
+speaker = 守剑幽魂
+color = gray
+text = ……忘了。\n\n\n只记得。\n\n她总穿着白衣。\n\n看人的时候。\n\n很安静。
+tip = 幽魂轮廓轻微摇晃
+next = volcano_ghost_8
+
+
+[volcano_ghost_8]
+type = reality
+speaker = 勇者
+color = white
+text = ……那你还记得什么？
+tip = 幽魂沉默很久
+next = volcano_ghost_9
+
+
+[volcano_ghost_9]
+type = reality
+speaker = 守剑幽魂
+color = gray
+text = ……记得很多人死了。\n\n\n也记得。\n\n他们明明知道会输。\n\n还是上山了。
+tip = 风里隐约传来遥远呐喊
+next = volcano_ghost_10
+
+
+[volcano_ghost_10]
+type = reality
+speaker = 勇者
+color = white
+text = ……为什么？\n\n明知道不会赢。
+tip = 幽魂久久没有回答
+next = volcano_ghost_11
+
+
+[volcano_ghost_11]
+type = reality
+speaker = 守剑幽魂
+color = gray
+text = ……因为人活着。\n\n有时候。\n\n不是为了赢。\n\n\n只是为了。\n\n别那么早低头。
+tip = 幽魂身影开始逐渐消散
+next = volcano_ghost_12
+
+
+[volcano_ghost_12]
+type = reality
+speaker = 守剑幽魂
+color = gray
+text = 后来我才明白。\n\n\n真正先死掉的。\n\n从来不是人。\n\n而是那些——\n\n觉得"反正没意义"的心。
+tip = 断剑与火山灰同时亮起微光
 next =
 
+# =========================
+# 核心回溯（最重要）
 # =========================
 # 核心回溯（最重要）
 # =========================
@@ -1062,8 +1321,30 @@ color = gray
 flashback = true
 text = 她终于停下笔。\n\n沉默了很久。\n\n随后轻声开口。\n\n「……原来如此。」\n\n「不是召唤失败。」\n\n「而是这个世界……已经没有未来了。」\n\n\n烛火轻轻摇晃。\n\n而她第一次。\n\n露出了真正疲惫的神情。
 tip = 时间法阵开始逐渐熄灭
+next = library_manuscript_flash_4
+
+
+[library_manuscript_flash_4]
+type = flashback
+speaker = 天文学者
+color = gray
+flashback = true
+text = 「黑雾正在吞噬天空。」\n\n「星轨已经开始紊乱。」\n\n学者们不断记录数据。\n\n声音却越来越绝望。\n\n\n因为他们发现。\n\n整个世界本身——\n\n正在死亡。
+tip = 回溯中的星空逐渐被黑雾覆盖
+next = library_manuscript_flash_5
+
+
+[library_manuscript_flash_5]
+type = flashback
+speaker = 天文学者
+color = gray
+flashback = true
+text = 「圣女大人。」\n\n「真的没有办法了吗？」\n\n空气沉默很久。\n\n白衣身影缓缓望向夜空。\n\n随后轻声回答。\n\n「……有。」\n\n所有人猛地抬头。\n\n而她接下来的话。\n\n却让整个大厅安静下来。\n\n\n「让更多人活久一点。」\n\n\n那一刻。\n\n所有人终于明白。\n\n她已经不再考虑"胜利"了。
+tip = 星光正在逐渐熄灭
 next =
 
+# =========================
+# 文明种子调查
 # =========================
 # 星图调查
 # =========================

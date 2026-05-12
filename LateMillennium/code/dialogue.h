@@ -28,6 +28,7 @@ struct DialogData {
     QString speaker;           // 说话人
     QString speakerColor;      // 颜色标识
     QString text;              // 对话内容
+    QString tipText;           // 提示文本
     QList<DialogChoice> choices; // 选项列表
     QString nextKey;           // 下一段对话key
     bool isFlashback;          // 是否回溯对话

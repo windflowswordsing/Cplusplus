@@ -25,6 +25,7 @@ void Dialogue::initDialogs()
         QDir::currentPath() + "/dialogues.txt",
         QDir::currentPath() + "/../dialogues.txt",
         QDir::currentPath() + "/code/dialogues.txt",
+        QDir::currentPath() + "/对话新.txt",
         "C:/Users/29742/AppData/Roaming/TRAE SOLO CN/ModularData/ai-agent/work-mode-projects/6a02c580c6009f364917cb50/LateMillennium/code/dialogues.txt"
     };
 
@@ -43,7 +44,11 @@ void Dialogue::initDialogs()
     }
 
     QTextStream in(&file);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     in.setEncoding(QStringConverter::Utf8);
+#else
+    in.setCodec("UTF-8");
+#endif
 
     QString currentBlock;
     QString currentKey;
@@ -65,8 +70,21 @@ void Dialogue::initDialogs()
             // 开始新块
             currentKey = line.mid(1, line.indexOf("]") - 1);
             currentBlock = line + "\n";
+        } else if (line.startsWith("speaker =") || line.startsWith("speaker=")) {
+            // 处理没有 [key] 标记的对话块（实现.txt格式）
+            if (!currentBlock.isEmpty() && !currentKey.isEmpty()) {
+                parseDialogBlock(currentBlock);
+                currentBlock.clear();
+                currentKey.clear();
+            }
+            // 生成一个唯一的key
+            static int autoKeyCounter = 0;
+            currentKey = QString("auto_key_%1").arg(++autoKeyCounter);
+            currentBlock = QString("[%1]\n").arg(currentKey) + line + "\n";
         } else {
-            currentBlock += line + "\n";
+            if (!currentKey.isEmpty()) {
+                currentBlock += line + "\n";
+            }
         }
     }
 
@@ -110,6 +128,9 @@ void Dialogue::parseDialogBlock(const QString &block)
         } else if (field == "text") {
             // 处理多行文本，将 \n\n 替换为实际换行
             data.text = value.replace("\\n\\n", "\n\n").replace("\\n", "\n");
+        } else if (field == "tip") {
+            // 提示文本
+            data.tipText = value.replace("\\n\\n", "\n\n").replace("\\n", "\n");
         } else if (field == "next") {
             data.nextKey = value;
         } else if (field == "flashback") {
