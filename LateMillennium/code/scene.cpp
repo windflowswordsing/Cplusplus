@@ -28,7 +28,7 @@ void Scene::load(int sceneId)
         m_bgFlashbackPath = "bg/bg_church_fb.png";
 
         // 场景道具：法阵（两种状态）
-        m_props << Prop("magic_circle", 450, 580, 128, 40, QColor(100, 80, 120), "法阵",
+        m_props << Prop("magic_circle", 576, 580, 128, 40, QColor(100, 80, 120), "法阵",
                        "prop/prop_magic_circle.png", "prop/prop_magic_circle_glow.png");
 
         // 场景道具：神像（两种状态）
@@ -169,7 +169,7 @@ void Scene::load(int sceneId)
         m_bgFlashbackPath = "bg/bg_church_fb.png";
 
         // 场景道具：发光法阵
-        m_props << Prop("magic_circle_glow", 450, 580, 128, 40, QColor(150, 120, 200), "法阵",
+        m_props << Prop("magic_circle_glow", 576, 580, 128, 40, QColor(150, 120, 200), "法阵",
                        "prop/prop_magic_circle_glow.png", "");
 
         // 出口

@@ -31,10 +31,13 @@ struct DialogData {
     QList<DialogChoice> choices; // 选项列表
     QString nextKey;           // 下一段对话key
     bool isFlashback;          // 是否回溯对话
+    bool isNarration;          // 是否旁白（描述性叙述）
     bool isEnding;             // 是否触发结局
     int endingType;            // 结局类型
+    QString tipText;           // 提示文本
 
-    DialogData() : type(DialogType::Talk), isFlashback(false), isEnding(false), endingType(0) {}
+    DialogData() : type(DialogType::Talk), isFlashback(false), isNarration(false),
+                   isEnding(false), endingType(0) {}
 
     // 是否处于回溯状态（用于渲染回溯背景）
     bool inFlashbackState() const {

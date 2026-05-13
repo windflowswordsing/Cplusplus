@@ -114,6 +114,10 @@ void Dialogue::parseDialogBlock(const QString &block)
             data.nextKey = value;
         } else if (field == "flashback") {
             data.isFlashback = (value.toLower() == "true");
+        } else if (field == "narration") {
+            data.isNarration = (value.toLower() == "true");
+        } else if (field == "tip") {
+            data.tipText = value;
         } else if (field == "ending") {
             data.isEnding = true;
             data.endingType = value.toInt();

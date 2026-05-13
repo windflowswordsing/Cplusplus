@@ -147,6 +147,7 @@ private:
     bool returnedFromLibrary;        // 新代码使用
     bool swordDropped;
     bool ghostTalked;                // 新代码使用
+    bool bookshelfSearched;          // 场景5书架已搜索
 
     // === 提示按钮 ===
     bool showHintButton;

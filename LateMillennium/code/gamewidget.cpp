@@ -28,6 +28,7 @@ GameWidget::GameWidget(QWidget *parent) : QWidget(parent)
     loopShockShown = false;
     libraryFlashbackShown = false;
     ghostTalked = false;
+    bookshelfSearched = false;
     swordDropped = false;
     swordPicked = false;
     seedDiscovered = false;
@@ -86,9 +87,14 @@ GameWidget::GameWidget(QWidget *parent) : QWidget(parent)
 
     // 初始化音乐播放器
     bgmPlayer = new QMediaPlayer(this);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     audioOutput = new QAudioOutput(this);
     bgmPlayer->setAudioOutput(audioOutput);
     audioOutput->setVolume(0.5f);
+#else
+    bgmPlayer->setVolume(50);
+    audioOutput = nullptr;
+#endif
     currentBgmIndex = -1;
     bgmFiles << "bgm/bgm_1.mp3" << "bgm/bgm_2.mp3" << "bgm/bgm_3.mp3" << "bgm/bgm_4.mp3";
 
@@ -146,8 +152,12 @@ void GameWidget::playRandomBgm()
     currentBgmIndex = newIndex;
     QString bgmPath = resDir + "/" + bgmFiles[currentBgmIndex];
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     bgmPlayer->setSource(QUrl::fromLocalFile(bgmPath));
     bgmPlayer->setLoops(QMediaPlayer::Infinite);
+#else
+    bgmPlayer->setMedia(QUrl::fromLocalFile(bgmPath));
+#endif
     bgmPlayer->play();
 }
 
@@ -254,16 +264,16 @@ void GameWidget::handleDialogEnd()
 
     if (endedKey == "church_auto_flashback") {
         showingFlashbackBg = false;
-        startDialog("church_start");
+        startDialog("church_enter");
         return;
     }
-    if (endedKey == "church_statue_2") {
+    if (endedKey == "church_statue_flash_2") {
         statueTalked = true;
     }
-    if (endedKey == "church_circle_2") {
+    if (endedKey == "church_circle_flash_3") {
         circleTalked = true;
     }
-    if (endedKey == "church_candle_2") {
+    if (endedKey == "church_candle_flash_2") {
         candleTalked = true;
     }
     if (endedKey == "library_auto_flashback") {
@@ -275,8 +285,20 @@ void GameWidget::handleDialogEnd()
         startDialog("sword_ghost_choice");
         return;
     }
+    if (endedKey == "volcano_ghost_12") {
+        ghostTalked = true;
+        swordDropped = true;
+    }
     if (endedKey == "volcano_sword_flash_3") {
         swordDropped = true;
+    }
+    // 龙虾对话结束后，幻梦机器解锁
+    if (endedKey == "lobster_meet_6c") {
+        lobsterSaved = true;
+    }
+    // 石碑调查结束后，石棺解锁
+    if (endedKey == "pyramid_tablet_narration") {
+        coffinUnlocked = true;
     }
     showingFlashbackBg = false;
     state = GameState::Playing;
@@ -289,6 +311,8 @@ void GameWidget::changeScene(int targetScene, int spawnX, int spawnY)
     player.sceneId = targetScene;
     player.setPos(spawnX, spawnY);
     scene.load(targetScene);
+    showingFlashbackBg = false;
+    state = GameState::Playing;
 
     // 进入新场景时播放随机BGM
     playRandomBgm();
@@ -315,16 +339,15 @@ void GameWidget::checkCollisions()
 
     // ---- 场景0：教堂 ----
     if (player.sceneId == 0) {
-        QRect circleR(450, 580, 128, 40);
+        QRect circleR(576, 580, 128, 40);
         QRect statueR(300, 480, 100, 140);
         QRect candleR(150, 520, 80, 100);
 
-        if (returnedFromLibrary && player.hasProp("seed") && interactRect.intersects(circleR)) {
-            startDialog("final_choice");
-            return;
-        }
         if (interactRect.intersects(circleR)) {
-            if (!circleTalked) {
+            // 法阵发光后触发结局选项
+            if (seedDiscovered || returnedFromLibrary) {
+                startDialog("final_choice");
+            } else if (!circleTalked) {
                 startDialog("church_circle");
             } else {
                 startDialog("church_circle_flash");
@@ -353,48 +376,57 @@ void GameWidget::checkCollisions()
     if (player.sceneId == 1) {
         QRect dreamR(500, 440, 200, 200);
         QRect holoR(840, 495, 120, 150);
+
         if (interactRect.intersects(dreamR)) {
+            // 幻梦机器需要先和龙虾对话结束后才能使用
             if (!lobsterSaved) {
                 startDialog("dream_machine_locked");
-            } else if (seedDiscovered) {
-                startDialog("dream_machine_with_seed");
-            } else if (!dreamMachineUnlocked) {
-                dreamMachineUnlocked = true;
-                startDialog("dream_machine");
             } else {
-                startDialog("dream_machine");
+                startDialog("dream_machine_choice");
             }
             return;
         }
-        if (interactRect.intersects(holoR)) { startDialog("holo_screen"); return; }
+        if (interactRect.intersects(holoR)) { 
+            startDialog("dungeon_core"); 
+            return; 
+        }
     }
 
     // ---- 场景2：金字塔 ----
     if (player.sceneId == 2) {
         QRect paintR(550, 490, 200, 120);
         QRect tabletR(350, 490, 80, 100);
-        QRect coffinR(830, 540, 120, 80);
-        if (interactRect.intersects(paintR)) { startDialog("wall_painting"); return; }
+        QRect coffinR(810, 520, 160, 110);
+
+        if (interactRect.intersects(paintR)) { 
+            startDialog("pyramid_wall"); 
+            return; 
+        }
         if (interactRect.intersects(tabletR)) {
-            coffinUnlocked = true;
-            startDialog("stone_tablet");
+            startDialog("pyramid_tablet");
             return;
         }
         if (interactRect.intersects(coffinR)) {
-            startDialog(coffinUnlocked ? "stone_coffin" : "stone_coffin_locked");
+            // 石棺需要先调查石碑后才能使用
+            if (!coffinUnlocked) {
+                startDialog("pyramid_coffin_locked");
+            } else {
+                startDialog("pyramid_coffin");
+            }
             return;
         }
     }
 
-    // ---- 场景3：断剑 ----
-    if (player.sceneId == 3 && swordDropped) {
+    // ---- 场景3：火山 ----
+    if (player.sceneId == 3) {
         QRect swordR(830, 500, 60, 120);
+
         if (interactRect.intersects(swordR)) {
-            if (!swordPicked) {
+            if (ghostTalked && !swordPicked) {
                 swordPicked = true;
                 player.addProp("broken_sword");
-                startDialog("pick_sword");
-            } else {
+                startDialog("volcano_sword");
+            } else if (swordPicked) {
                 changeScene(4, 100, 540);
             }
             return;
@@ -408,25 +440,43 @@ void GameWidget::checkCollisions()
         QRect vesselR(700, 570, 60, 50);
         QRect portalR(1050, 420, 100, 200);
 
-        if (interactRect.intersects(bookR)) { startDialog("library_bookshelf"); return; }
+        if (interactRect.intersects(bookR)) { 
+            startDialog("library_bookshelf"); 
+            return; 
+        }
         if (interactRect.intersects(manuR)) {
-            startDialog(seedDiscovered ? "manuscript_choice" : "library_manuscript");
+            startDialog("library_manuscript");
             return;
         }
         if (interactRect.intersects(vesselR)) {
             if (!seedDiscovered) {
                 seedDiscovered = true;
-                startDialog("seed_discovered");
+                startDialog("library_seed");
             } else if (!seedPicked) {
                 seedPicked = true;
-                player.addProp("seed");
-                startDialog("pick_seed");
+                startDialog("seed_choice");
             }
             return;
         }
         if (interactRect.intersects(portalR)) {
             returnedFromLibrary = true;
             changeScene(0, 200, 300);
+            return;
+        }
+    }
+
+    // ---- 场景5：时空闭环 ----
+    if (player.sceneId == 5) {
+        QRect bookR(300, 480, 150, 140);
+        QRect circleR(576, 580, 128, 40);
+
+        if (interactRect.intersects(bookR) && !bookshelfSearched) {
+            bookshelfSearched = true;
+            startDialog("scene5_bookshelf");
+            return;
+        }
+        if (interactRect.intersects(circleR)) {
+            startDialog("scene5_circle_choice");
             return;
         }
     }
@@ -439,7 +489,7 @@ void GameWidget::checkCollisions()
         if (id == "well") {
             if (!wellCleared) {
                 wellCleared = true;
-                startDialog("well_clear");
+                startDialog("church_well");
             } else {
                 changeScene(1, 100, 300);
             }
@@ -458,6 +508,7 @@ void GameWidget::checkCollisions()
         if (id == "lobster") {
             if (!lobsterFreed) {
                 lobsterFreed = true;
+                startDialog("lobster_question");
                 return;
             }
             if (!lobsterSaved) {
@@ -468,11 +519,9 @@ void GameWidget::checkCollisions()
             return;
         }
         if (id == "sword_ghost") {
-            if (swordDropped) return;
             if (!ghostTalked) {
-                ghostTalked = true;
                 startDialog("volcano_ghost");
-            } else {
+            } else if (!swordDropped) {
                 startDialog("sword_ghost_choice");
             }
             return;
@@ -493,17 +542,65 @@ void GameWidget::checkCollisions()
 
 void GameWidget::handleInteraction(const QString &action)
 {
+    // 龙虾选项
+    if (action == "lobster_resolve") {
+        startDialog("lobster_meet");
+        return;
+    }
+    if (action == "lobster_doubt") {
+        startDialog("lobster_meet");
+        return;
+    }
+    
+    // 幻梦机器选项
+    if (action == "go_desert") { 
+        changeScene(2, 100, 300); 
+        return; 
+    }
+    if (action == "go_volcano") { 
+        changeScene(3, 100, 300); 
+        return; 
+    }
+    if (action == "go_library") { 
+        changeScene(4, 100, 540); 
+        return; 
+    }
+    if (action == "continue_volcano") { 
+        state = GameState::Playing; 
+        return; 
+    }
+    if (action == "go_forward") { 
+        changeScene(3, 100, 300); 
+        return; 
+    }
+    if (action == "ending_dream") { 
+        triggerEnding(4); 
+        return; 
+    }
     if (action == "dream_enter") { triggerEnding(4); return; }
     if (action == "leave_dream") { state = GameState::Playing; showingFlashbackBg = false; return; }
+    
+    // 石棺选项
     if (action == "coffin_enter") { triggerEnding(5); return; }
     if (action == "leave_coffin") { state = GameState::Playing; showingFlashbackBg = false; return; }
+    
+    // 断剑选项
     if (action == "take_sword") { startDialog("volcano_sword_flash"); return; }
     if (action == "leave_ghost") { state = GameState::Playing; showingFlashbackBg = false; return; }
+    
+    // 手稿选项
     if (action == "study_manuscript") { triggerEnding(3); return; }
     if (action == "leave_manuscript") { state = GameState::Playing; showingFlashbackBg = false; return; }
+    
+    // 结局选项
     if (action == "ending_newborn") { triggerEnding(1); return; }
-    if (action == "ending_dream") { triggerEnding(2); return; }
     if (action == "ending_time") { triggerEnding(3); return; }
+    if (action == "ending_wait") { state = GameState::Playing; showingFlashbackBg = false; return; }
+    if (action == "ending_return") { triggerEnding(2); return; }
+    if (action == "take_seed") { state = GameState::Playing; showingFlashbackBg = false; return; }
+    if (action == "study_time_magic") { triggerEnding(3); return; }
+    if (action == "leave_book") { state = GameState::Playing; showingFlashbackBg = false; return; }
+
     state = GameState::Playing;
     showingFlashbackBg = false;
 }
@@ -527,6 +624,7 @@ void GameWidget::resetGame()
     loopShockShown = false;
     libraryFlashbackShown = false;
     ghostTalked = false;
+    bookshelfSearched = false;
     swordDropped = false;
     swordPicked = false;
     seedDiscovered = false;
@@ -712,7 +810,7 @@ void GameWidget::drawTitle(QPainter &p)
 
     p.setPen(QColor(220, 200, 150, int(a1)));
     p.setFont(titleFont);
-    p.drawText(leftX, midY - 20, "千年迟赴");
+    p.drawText(leftX, midY - 20, "千年迟赴：文明灰烬");
 
     // 副标题已删除
 
@@ -892,20 +990,33 @@ void GameWidget::drawProps(QPainter &p)
             loaded = true;
         }
         QPixmap &circle = (seedDiscovered || returnedFromLibrary) && !magicCircleGlow.isNull() ? magicCircleGlow : magicCircle;
-        if (!circle.isNull()) p.drawPixmap(450, 580, 128, 40, circle);
+        if (!circle.isNull()) p.drawPixmap(576, 580, 128, 40, circle);
         if (!churchStatue.isNull()) p.drawPixmap(300, 480, 100, 140, churchStatue);
         if (!churchCandle.isNull()) p.drawPixmap(150, 520, 80, 100, churchCandle);
     }
 
     if (player.sceneId == 1) {
-        static QPixmap dreamMachine, holoScreen;
+        static QPixmap holoScreen, dreamMachine;
         static bool loaded = false;
         if (!loaded) {
-            dreamMachine = removeBackground(QPixmap(resDir+"/prop/prop_dream_machine.png"), blackBg, 30);
             holoScreen = removeBackground(QPixmap(resDir+"/prop/prop_holo_screen.png"), blackBg, 30);
+            dreamMachine = QPixmap(resDir+"/prop/prop_dream_machine.png");
             loaded = true;
         }
-        if (!dreamMachine.isNull()) p.drawPixmap(500, 440, 200, 200, dreamMachine);
+        // 幻梦机器：使用图片素材
+        if (!dreamMachine.isNull()) {
+            p.drawPixmap(500, 440, 200, 200, dreamMachine);
+        } else {
+            // 回退：纯色块绘制
+            p.setPen(QColor(100, 90, 130));
+            p.setBrush(QColor(60, 50, 90, 200));
+            p.drawRect(500, 440, 200, 200);
+            p.setPen(QColor(150, 140, 180, 150));
+            p.setBrush(Qt::NoBrush);
+            p.drawRect(505, 445, 190, 190);
+            p.setBrush(QColor(180, 170, 220, 80));
+            p.drawEllipse(580, 520, 40, 40);
+        }
         if (!holoScreen.isNull()) p.drawPixmap(840, 495, 120, 150, holoScreen);
     }
 
@@ -920,25 +1031,25 @@ void GameWidget::drawProps(QPainter &p)
         }
         if (!stoneTablet.isNull()) p.drawPixmap(350, 490, 80, 100, stoneTablet);
         if (!wallPaint.isNull()) p.drawPixmap(550, 490, 200, 120, wallPaint);
-        if (!stoneCoffin.isNull()) p.drawPixmap(830, 540, 120, 80, stoneCoffin);
+        if (!stoneCoffin.isNull()) p.drawPixmap(810, 520, 160, 110, stoneCoffin);
 
         if (coffinUnlocked) {
             p.setPen(Qt::NoPen);
             p.setBrush(QColor(80,150,255,50));
-            p.drawEllipse(870, 580, 160, 120);
+            p.drawEllipse(850, 570, 180, 140);
         }
     }
 
     if (player.sceneId == 3 && swordDropped) {
-        static QPixmap brokenSword;
-        static bool loaded = false;
-        if (!loaded) {
-            brokenSword = QPixmap(resDir+"/prop/prop_broken_sword.png");
-            loaded = true;
-        }
-        if (!brokenSword.isNull()) {
-            p.drawPixmap(830, 500, 60, 120, brokenSword);
-            if (!swordPicked) {
+        if (!swordPicked) {
+            static QPixmap brokenSword;
+            static bool loaded = false;
+            if (!loaded) {
+                brokenSword = QPixmap(resDir+"/prop/prop_broken_sword.png");
+                loaded = true;
+            }
+            if (!brokenSword.isNull()) {
+                p.drawPixmap(830, 500, 60, 120, brokenSword);
                 float bob = std::sin(QDateTime::currentMSecsSinceEpoch()*0.005)*3;
                 p.setBrush(QColor(255,220,50));
                 p.setPen(QColor(200,170,0));
@@ -978,7 +1089,7 @@ void GameWidget::drawProps(QPainter &p)
             magicCircleGlow = removeBackground(QPixmap(resDir+"/prop/prop_magic_circle_glow.png"), blackBg, 30);
             loaded = true;
         }
-        if (!magicCircleGlow.isNull()) p.drawPixmap(450, 580, 128, 40, magicCircleGlow);
+        if (!magicCircleGlow.isNull()) p.drawPixmap(576, 580, 128, 40, magicCircleGlow);
     }
 }
 
@@ -1063,7 +1174,7 @@ void GameWidget::drawNpcs(QPainter &p)
 void GameWidget::drawDialog(QPainter &p)
 {
     bool isFb = currentDialog.inFlashbackState();  // 是否回溯
-    bool isNr = false;  // 旁白功能暂未启用
+    bool isNr = currentDialog.isNarration;  // 是否旁白（描述性叙述）
 
     // ====== 背景处理 ======
     if (isFb) {
@@ -1074,7 +1185,7 @@ void GameWidget::drawDialog(QPainter &p)
         p.fillRect(rect(), QColor(0, 0, 0, 100));
     }
 
-    // ====== 立绘（仅现实对话显示） ======
+    // ====== 立绘（仅现实对话显示，旁白不显示立绘）======
     QString speaker = currentDialog.speaker;
     bool showHero  = (!isFb && !isNr && speaker == "勇者");
     bool showKing  = (!isFb && !isNr && speaker == "国王");
@@ -1109,12 +1220,12 @@ void GameWidget::drawDialog(QPainter &p)
         p.drawPixmap(width()-pw-30, height()-ph-40, pw, ph, ghostImg);
     }
 
-    // ====== 对话框尺寸 ======
-    int boxX = 60, boxY = height() - 320, boxW = width() - 120, boxH = 280;
+    // ====== 对话框尺寸（缩小）======
+    int boxX = 80, boxY = height() - 260, boxW = width() - 160, boxH = 220;
     bool hasLeftPortrait = (showHero && !heroImg.isNull()) || (showKing && !kingImg.isNull());
     bool hasRightPortrait = (showGhost && !ghostImg.isNull());
-    if (hasLeftPortrait) { boxX = 280; boxW = width() - 340; }
-    if (hasRightPortrait) { boxW = width() - 340; }
+    if (hasLeftPortrait) { boxX = 260; boxW = width() - 320; }
+    if (hasRightPortrait) { boxW = width() - 320; }
 
     // ====== 对话框背景 ======
     QColor borderColor;
@@ -1158,7 +1269,7 @@ void GameWidget::drawDialog(QPainter &p)
 
     // ====== 对话文本 ======
     int textTop = boxY + (isNr ? 40 : 55);  // 旁白时文本区域上移
-    int textHeight = (state == GameState::Choice) ? 150 : 200;
+    int textHeight = (state == GameState::Choice) ? 120 : 170;
 
     if (isNr) {
         // 旁白样式：斜体 + 淡蓝灰色调
@@ -1180,6 +1291,16 @@ void GameWidget::drawDialog(QPainter &p)
 
     p.drawText(QRect(boxX+20, textTop, boxW-40, textHeight),
                Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, currentDialog.text);
+
+    // ====== 提示文本（tip）======
+    if (!currentDialog.tipText.isEmpty()) {
+        int tipY = textTop + textHeight + 5;
+        int tipHeight = 30;
+        p.setPen(QColor(150, 140, 120, 180));
+        p.setFont(QFont("SimHei", 10));
+        p.drawText(QRect(boxX+20, tipY, boxW-40, tipHeight),
+                   Qt::AlignLeft | Qt::AlignTop | Qt::TextWordWrap, currentDialog.tipText);
+    }
 
     // ====== 选项/继续提示 ======
     if (state == GameState::Choice && !currentDialog.choices.isEmpty()) {
@@ -1345,6 +1466,10 @@ bool GameWidget::isNearInteractable() const
     QRect ir = player.rect().adjusted(-8,-8,8,8);
     for (const auto &npc : scene.npcs()) {
         if (npc.id() == "well" || npc.id() == "stone_door") {
+            if (ir.intersects(npc.rect())) return true;
+            continue;
+        }
+        if (npc.id() == "sword_ghost") {
             if (ir.intersects(npc.rect())) return true;
             continue;
         }
